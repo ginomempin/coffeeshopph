@@ -27,6 +27,7 @@ This is a coffee shop application developed using Ruby on Rails.
         * If creating the app for the first time: ```heroku create <app-name>```
     * Verify that the heroku remote was created:
         * ```git remote -v```
+    * Push production code to heroku: ```git push heroku master```
     * Access the page using its https://app-name.herokuapp.com URL
 
 ### Changelog ###
