@@ -15,7 +15,19 @@ This is a coffee shop application developed using Ruby on Rails.
 
 ### Setup and Installation ###
 
-//TODO
+* HOW-TO run the application in Heroku
+    * Create an account in Heroku
+    * Install the Heroku Toolbelt
+    * Switch to the production branch (i.e. master)
+    * In your local copy of the project:
+        * ```heroku login```
+        * ```heroku keys:add```
+    * Prepare the heroku remote
+        * If the heroku app already exists: ```git remote add heroku <git-URL-of-app>```
+        * If creating the app for the first time: ```heroku create <app-name>```
+    * Verify that the heroku remote was created:
+        * ```git remote -v```
+    * Access the page using its https://app-name.herokuapp.com URL
 
 ### Changelog ###
 
