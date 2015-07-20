@@ -2,14 +2,20 @@ require 'test_helper'
 
 class StaticPagesControllerTest < ActionController::TestCase
 
+  def setup
+    @base_title = "CoffeeShop | "
+    @sel_title = "title"
+    @sel_header = "h1"
+  end
+
   test "should get home" do
     # check GETing the URL for the Home page
     get :home
     assert_response :success
     # check the <title> tag
-    assert_select "title", "CoffeeShop | Home"
+    assert_select @sel_title, "#{@base_title}Home"
     # check the page header
-    assert_select "h1", "CoffeeShop"
+    assert_select @sel_header, "CoffeeShop"
   end
 
   test "should get help" do
@@ -17,9 +23,9 @@ class StaticPagesControllerTest < ActionController::TestCase
     get :help
     assert_response :success
     # check the <title> tag
-    assert_select "title", "CoffeeShop | FAQ"
+    assert_select @sel_title, "#{@base_title}FAQ"
     # check the page header
-    assert_select "h1", "FAQ"
+    assert_select @sel_header, "FAQ"
   end
 
   test "should get about" do
@@ -27,9 +33,9 @@ class StaticPagesControllerTest < ActionController::TestCase
     get :about
     assert_response :success
     # check the <title> tag
-    assert_select "title", "CoffeeShop | About"
+    assert_select @sel_title, "#{@base_title}About"
     # check the page header
-    assert_select "h1", "About"
+    assert_select @sel_header, "About"
   end
 
 end
