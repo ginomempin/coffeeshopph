@@ -17,9 +17,9 @@ class StaticPagesControllerTest < ActionController::TestCase
     get :help
     assert_response :success
     # check the <title> tag
-    assert_select "title", "CoffeeShop | Help"
+    assert_select "title", "CoffeeShop | FAQ"
     # check the page header
-    assert_select "h1", "Help"
+    assert_select "h1", "FAQ"
   end
 
   test "should get about" do
