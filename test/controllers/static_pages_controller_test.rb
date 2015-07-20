@@ -38,4 +38,14 @@ class StaticPagesControllerTest < ActionController::TestCase
     assert_select @sel_header, "About"
   end
 
+  test "should get contact" do
+    # check GETing the URL for the Contact page
+    get :contact
+    assert_response :success
+    # check the <title> tag
+    assert_select "title", "CoffeeShop | Contact Us"
+    # check the page header
+    assert_select "h1", "Contact Us"
+  end
+
 end
