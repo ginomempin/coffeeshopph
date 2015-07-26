@@ -3,7 +3,6 @@ require 'test_helper'
 class StaticPagesControllerTest < ActionController::TestCase
 
   def setup
-    @base_title = "CoffeeShop | "
     @sel_title = "title"
     @sel_header = "h1"
   end
@@ -13,9 +12,9 @@ class StaticPagesControllerTest < ActionController::TestCase
     get :home
     assert_response :success
     # check the <title> tag
-    assert_select @sel_title, "#{@base_title}Home"
+    assert_select @sel_title, APP_NAME
     # check the page header
-    assert_select @sel_header, "CoffeeShop"
+    assert_select @sel_header, APP_NAME
   end
 
   test "should get help" do
@@ -23,9 +22,9 @@ class StaticPagesControllerTest < ActionController::TestCase
     get :help
     assert_response :success
     # check the <title> tag
-    assert_select @sel_title, "#{@base_title}FAQ"
+    assert_select @sel_title, "#{APP_NAME} | #{PAGE_HELP_NAME}"
     # check the page header
-    assert_select @sel_header, "FAQ"
+    assert_select @sel_header, PAGE_HELP_NAME
   end
 
   test "should get about" do
@@ -33,9 +32,9 @@ class StaticPagesControllerTest < ActionController::TestCase
     get :about
     assert_response :success
     # check the <title> tag
-    assert_select @sel_title, "#{@base_title}About"
+    assert_select @sel_title, "#{APP_NAME} | #{PAGE_ABOUT_NAME}"
     # check the page header
-    assert_select @sel_header, "About"
+    assert_select @sel_header, PAGE_ABOUT_NAME
   end
 
   test "should get contact" do
@@ -43,9 +42,9 @@ class StaticPagesControllerTest < ActionController::TestCase
     get :contact
     assert_response :success
     # check the <title> tag
-    assert_select @sel_title, "#{@base_title}Contact Us"
+    assert_select @sel_title, "#{APP_NAME} | #{PAGE_CONTACT_NAME}"
     # check the page header
-    assert_select @sel_header, "Contact Us"
+    assert_select @sel_header, PAGE_CONTACT_NAME
   end
 
 end

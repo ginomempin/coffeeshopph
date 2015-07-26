@@ -1,0 +1,6 @@
+
+APP_NAME = "CoffeeShopPH"
+
+PAGE_ABOUT_NAME = "About"
+PAGE_HELP_NAME = "FAQ"
+PAGE_CONTACT_NAME = "Contact Us"
