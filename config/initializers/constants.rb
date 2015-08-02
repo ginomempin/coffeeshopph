@@ -1,6 +1,9 @@
 
 APP_NAME = "CoffeeShopPH"
+APP_VERSION = "v1.0.0"
+APP_DATE = "2015"
 
+PAGE_HOME_NAME = "Home"
 PAGE_ABOUT_NAME = "About"
 PAGE_HELP_NAME = "FAQ"
 PAGE_CONTACT_NAME = "Contact Us"

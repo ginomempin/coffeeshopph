@@ -1,4 +1,8 @@
-<p>
-  This is the <b>Home</b> page for the CoffeeShopPH app.<br>
-  This page is under construction.
-</p>
+<% provide(:header, PAGE_HOME_NAME) %>
+<div class="center jumbotron">
+  <p>
+    Check out what's brewing in your store today.
+  </p>
+  <%= link_to "Tables", "#", class: "btn btn-lg btn-primary" %>
+  <%= link_to "Orders", "#", class: "btn btn-lg btn-primary" %>
+</div>
