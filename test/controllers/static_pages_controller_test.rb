@@ -14,7 +14,7 @@ class StaticPagesControllerTest < ActionController::TestCase
     # check the <title> tag
     assert_select @sel_title, APP_NAME
     # check the page header
-    assert_select @sel_header, APP_NAME
+    assert_select @sel_header, PAGE_HOME_NAME
   end
 
   test "should get help" do

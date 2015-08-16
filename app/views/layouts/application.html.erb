@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= default_page_title(yield(:title)) %></title>
+    <title><%= format_tab_title(yield(:title)) %></title>
     <%= stylesheet_link_tag    'application', media: 'all',
                                               'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
+    <%= render 'layouts/shared/shim' %>
   </head>
   <body>
-    <h1><%= default_page_header(yield(:header)) %></h1>
-    <%= yield %>
+    <%= render 'layouts/shared/header' %>
+    <div class="container">
+      <h1><%= format_page_header(yield(:header)) %></h1>
+      <%= yield %>
+    </div>
+    <%= render 'layouts/shared/footer' %>
   </body>
 </html>

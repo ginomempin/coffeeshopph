@@ -1,7 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails',                  '4.2.2'
+gem 'bootstrap-sass',         '>= 3.2.0.0'
 gem 'sass-rails',             '5.0.2'     # fix to 5.0.2 to prevent issue with Heroku
+gem 'font-awesome-sass',      '>= 4.3.0'
 gem 'uglifier',               '~> 2.5.3'
 gem 'coffee-rails',           '~> 4.1.0'
 gem 'jquery-rails',           '~> 4.0.3'

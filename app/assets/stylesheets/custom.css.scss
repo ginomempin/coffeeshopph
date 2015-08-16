@@ -1,0 +1,109 @@
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+/* --------------------------------- */
+/* Universal Styles                  */
+/* --------------------------------- */
+
+$coffee: #3e2200;
+$white: #ffffff;
+$orange: #ffa500;
+
+body {
+  padding-top: 60px;
+}
+
+header {
+  margin-bottom: 20px;
+}
+
+footer {
+  margin-top: 20px;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+.center {
+  text-align: center;
+}
+
+/* --------------------------------- */
+/* Bootstrap                         */
+/* --------------------------------- */
+
+.navbar {
+  background-color: $coffee;
+  border-color: $white;
+}
+
+.nav.navbar-nav.navbar-right li a {
+  color: $white;
+  &:hover {
+    color: $orange;
+    text-decoration: none;
+  }
+}
+
+.btn {
+  margin-right: 10px;
+}
+
+/* --------------------------------- */
+/* Font Awesome                      */
+/* --------------------------------- */
+
+footer {
+  .fa-cog {
+    color: white;
+  }
+  .fa-fw {
+    text-align: right;
+  }
+}
+
+/* --------------------------------- */
+/* Site Logo                         */
+/* --------------------------------- */
+
+#logo {
+  color: $white;
+  font-size: 1.7em;
+  &:hover {
+    color: $orange;
+    text-decoration: none;
+  }
+}
+
+/* --------------------------------- */
+/* Site Copyright                    */
+/* --------------------------------- */
+
+#copyright {
+  color: $white;
+  margin-left: 0px;
+}
