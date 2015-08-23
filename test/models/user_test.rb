@@ -38,7 +38,7 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test "valid emails should be accepted" do
+  test "valid email formats should be accepted" do
     addresses = ["user@test.com",
                  "USER@test.com",
                  "user@TEST.com",
@@ -58,7 +58,7 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "invalid emails should not be accepted" do
+  test "invalid email formats should not be accepted" do
     addresses = ["user@test,com",
                  "user@t_est.com",
                  "user@test",
