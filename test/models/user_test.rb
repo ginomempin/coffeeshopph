@@ -93,15 +93,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "email addresses should be saved in lowercase" do
-    new_user = User.new(name: "ABC",
-                        email: "aBCdeFG@test.com",
-                        password: "123456",
-                        password_confirmation: "123456")
-    assert new_user.valid?
-    new_user.save
-    get_user = User.find_by name:"ABC"
-    assert get_user
-    assert_equal("abcdefg@test.com", get_user.email)
+    @user.email = "aBCdeFG@test.com"
+    @user.save
+    assert_equal(@user.email.downcase, @user.reload.email)
   end
 
   test "empty passwords should be invalid" do
