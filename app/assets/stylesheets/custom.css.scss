@@ -27,6 +27,12 @@ $gray:    #bbb;
 
 body {
   padding-top: 60px;
+
+  /*
+    Add a bottom padding so that navbar-bottom does not
+    block the content and prevent scrolling of containers.
+  */
+  padding-bottom: 90px;
 }
 
 header {
