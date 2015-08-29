@@ -22,9 +22,9 @@ class UsersControllerTest < ActionController::TestCase
     get :new
     assert_response :success
     # check the <title> tag
-    assert_select @sel_title, "#{APP_NAME} | #{PAGE_SIGNUP_NAME}"
+    assert_select @sel_title, "#{APP_NAME} | #{SIGNUP_PAGE_TITLE}"
     # check the page header
-    assert_select @sel_header, PAGE_SIGNUP_NAME
+    assert_select @sel_header, SIGNUP_PAGE_HEADER
   end
 
 end

@@ -1,0 +1,5 @@
+<% provide(:title, USERS_PAGE_TITLE) %>
+<% provide(:header, @user.name) %>
+<div class="center">
+  <%= gravatar_for(@user) %>
+</div>
