@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 
   validates :email, presence: true
   validates :email, length: { maximum: 255 }
-  validates :email, email_format: { message: "does not appear to be valid email address" }
+  validates :email, email_format: { message: "format does not appear to be valid" }
   validates :email, uniqueness: { case_sensitive: false }
 
   validates :password, presence: true
