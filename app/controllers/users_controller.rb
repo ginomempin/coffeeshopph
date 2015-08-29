@@ -10,7 +10,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      # successfully saved to the database
+      # update the messages for page alerts
+      flash[:success] = "Welcome to the #{APP_NAME}!"
+      # redirect to the user page
+      redirect_to user_url(@user)
     else
       # re-display the signup form
       render 'new'
