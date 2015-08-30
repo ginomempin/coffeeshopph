@@ -12,6 +12,9 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                password_confirmation: "456" }
     end
     assert_template "users/new"
+    assert_select "div#error_explanation"
+    assert_select "div.alert-danger", text:/4 errors/
+    assert_select "div.field_with_errors", count:8
   end
 
   test "success: valid signup" do
@@ -24,6 +27,9 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                             password_confirmation: "abc123" }
     end
     assert_template "users/show"
+    assert_select "div.alert-success"
+    assert_not flash.empty?
+    assert_not flash[:success].empty?
   end
 
 end

@@ -161,15 +161,3 @@ input {
   color: $white;
   margin-left: 0px;
 }
-
-/* --------------------------------- */
-/* Debug                             */
-/* --------------------------------- */
-
-.debug_dump {
-  clear: both;
-  float: left;
-  width: 100%;
-  margin-top: 45px;
-  @include box-sizing;
-}
