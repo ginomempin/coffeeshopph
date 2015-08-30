@@ -1,8 +1,5 @@
 class UsersController < ApplicationController
 
-  def login
-  end
-
   def new
     @user = User.new
   end
@@ -15,7 +12,7 @@ class UsersController < ApplicationController
       # redirect to the user page
       redirect_to user_url(@user)
     else
-      # re-display the signup form
+      # redisplay the signup form
       render 'new'
     end
   end
