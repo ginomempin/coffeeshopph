@@ -16,4 +16,13 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  # Class method for getting the hash digest of a given string.
+  # This uses the same BCrypt method as 'has_secure_password'.
+  # This is only used in setting-up test fixtures for the User model.
+  def User.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+
 end
