@@ -7,6 +7,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      # automatically log in the new user
+      log_in(@user)
       # update the messages for page alerts
       flash[:success] = "Welcome to the #{APP_NAME}!"
       # redirect to the user page
