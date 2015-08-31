@@ -13,6 +13,13 @@ module SessionsHelper
     !current_user.nil?
   end
 
+  # Logs-out the current user.
+  # Removes the session data from the client browser.
+  def log_out
+    session.delete(:user_id)
+    @current_user = nil
+  end
+
   # Returns the currently logged-in user.
   # The first pass retrieves the user from the database and
   #   stores it in an instance variable. Subsequent calls to
