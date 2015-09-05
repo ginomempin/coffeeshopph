@@ -16,21 +16,51 @@ module SessionsHelper
   # Logs-out the current user.
   # Removes the session data from the client browser.
   def log_out
+    forget(current_user)
     session.delete(:user_id)
     @current_user = nil
   end
 
   # Returns the currently logged-in user.
-  # The first pass retrieves the user from the database and
+  # It first checks if the session already has a logged_in user.
+  #   If it does, this method will use the saved user_id. The
+  #   first pass retrieves the user from the database and
   #   stores it in an instance variable. Subsequent calls to
   #   this method simply returns the instance variable.
-  # If no user is logged-in (session[:user_id] is nil), then
-  #   this method returns nil.
+  # If the session does not have a user, it then checks if the
+  #   cookies has a persistent user. If it does, this method
+  #   will then try to authenticate the persistent user. Once
+  #   authenticated, the persistent user is logged-in and is
+  #   returned.
+  # If the session or the cookies does not have a user, this
+  #   method returns nil.
   # Note that 'find_by' is used here instead of 'find'.
   #   This is because 'find_by' raises an exception if
   #   the id is non-existent, while 'find' returns nil.
   def current_user
-    @current_user ||= User.find_by(id: session[:user_id])
+    if (user_id = session[:user_id])
+      @current_user ||= User.find_by(id:user_id)
+    elsif (user_id = cookies.signed[:user_id])
+      user = User.find_by(id: user_id)
+      if user && user.authenticated?(cookies[:remember_token])
+        log_in(user)
+        @current_user = user
+      end
+    end
+  end
+
+  # Remembers the logged-in user using a persistent session.
+  def remember(user)
+    user.remember
+    cookies.permanent.signed[:user_id] = user.id  # encrypt the user_id instead of plaintext
+    cookies.permanent[:remember_token] = user.remember_token
+  end
+
+  # Reverses the remember method.
+  def forget(user)
+    user.forget
+    cookies.delete(:user_id)
+    cookies.delete(:remember_token)
   end
 
 end
