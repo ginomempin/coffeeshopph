@@ -7,18 +7,8 @@ class UsersControllerTest < ActionController::TestCase
     @sel_header = "h1"
   end
 
-  test "should get login" do
-    # check GETing the URL for the Home page
-    get :login
-    assert_response :success
-    # check the <title> tag
-    assert_select @sel_title, "#{APP_NAME} | #{PAGE_LOGIN_NAME}"
-    # check the page header
-    assert_select @sel_header, PAGE_LOGIN_NAME
-  end
-
   test "should get signup" do
-    # check GETing the URL for the Home page
+    # check GETing the URL for the Sign Up page
     get :new
     assert_response :success
     # check the <title> tag

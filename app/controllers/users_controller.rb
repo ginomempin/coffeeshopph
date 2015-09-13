@@ -1,8 +1,5 @@
 class UsersController < ApplicationController
 
-  def login
-  end
-
   def new
     @user = User.new
   end
@@ -10,12 +7,14 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      # automatically log in the new user
+      log_in(@user)
       # update the messages for page alerts
       flash[:success] = "Welcome to the #{APP_NAME}!"
       # redirect to the user page
       redirect_to user_url(@user)
     else
-      # re-display the signup form
+      # redisplay the signup form
       render 'new'
     end
   end

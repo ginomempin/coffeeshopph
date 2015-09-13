@@ -14,7 +14,7 @@ class LayoutTest < ActionDispatch::IntegrationTest
 
   test "links_from_login" do
     get login_path
-    assert_template "users/login"
+    assert_template "sessions/new"
     assert_select "a[href=?]", signup_path, count: 1
   end
 
