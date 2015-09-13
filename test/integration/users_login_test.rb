@@ -10,8 +10,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   test "error-login with invalid credentials" do
     get login_path
     assert_template "sessions/new"
-    post login_path, session: { email: "",
-                                password: "" }
+    check_log_in_as(@user, password: "wrong", remeber_me: "0")
     assert_template "sessions/new"
     assert_select "div.alert-danger"
     assert_not flash.empty?
@@ -26,8 +25,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     # login
     get login_path
     assert_template "sessions/new"
-    post login_path, session: { email: @user.email,
-                                password: "password" }
+    check_log_in_as(@user, password: "password", remeber_me: "0")
     assert check_logged_in?
     assert_redirected_to user_path(@user)
     follow_redirect!
@@ -51,6 +49,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   test "success-login with remembering" do
     check_log_in_as(@user, remember_me: "1")
     assert_not_nil cookies['remember_token']
+    assert_equal cookies['remember_token'], assigns(:user).remember_token
   end
 
   test "success-login without remembering" do
