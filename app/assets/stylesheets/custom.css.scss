@@ -11,14 +11,23 @@
 
 $coffee:  #3e2200;
 $white:   #ffffff;
+$black:   #000000;
 $orange:  #ffa500;
 $blue:    #0099ff;
-$gray:    #bbb;
+$gray:    #abb0ac;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+@mixin colored-links ($display:$blue, $hover:$orange) {
+  color: $display;
+  &:hover {
+    color: $hover;
+    text-decoration: none;
+  }
 }
 
 /* --------------------------------- */
@@ -71,6 +80,10 @@ img {
   border: 3px inset $blue;
 }
 
+a {
+  @include colored-links;
+}
+
 .center {
   text-align: center;
 }
@@ -84,16 +97,31 @@ img {
   border-color: $white;
 }
 
-.nav.navbar-nav.navbar-right li a {
-  color: $white;
-  &:hover {
-    color: $orange;
-    text-decoration: none;
+.nav.navbar-nav.navbar-right {
+  li:not(.dropdown) a {
+    @include colored-links($white);
+  }
+  li.dropdown {
+    a {
+      @include colored-links($white);
+    }
+    .dropdown-menu li a {
+      @include colored-links($black);
+    }
   }
 }
 
 .btn {
   margin-right: 10px;
+}
+
+.checkbox {
+  margin-top: -10px;
+  margin-bottom: 20px;
+  span {
+    margin-left: 20px;
+    font-weight: normal;
+  }
 }
 
 /* --------------------------------- */
@@ -102,7 +130,7 @@ img {
 
 footer {
   .fa-cog {
-    color: white;
+    color: $white;
   }
   .fa-fw {
     text-align: right;
@@ -140,17 +168,18 @@ input {
   }
 }
 
+#session_remember_me {
+  width: auto;
+  margin-left: 0;
+}
+
 /* --------------------------------- */
 /* Site Logo                         */
 /* --------------------------------- */
 
 #logo {
-  color: $white;
+  @include colored-links($white);
   font-size: 1.7em;
-  &:hover {
-    color: $orange;
-    text-decoration: none;
-  }
 }
 
 /* --------------------------------- */
@@ -159,5 +188,6 @@ input {
 
 #copyright {
   color: $white;
+  margin-top: 20px;
   margin-left: 0px;
 }

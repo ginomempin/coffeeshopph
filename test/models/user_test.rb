@@ -116,4 +116,8 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  test "authenticated? should return false if password_digest is nil" do
+    assert_not @user.authenticated?('any_token')
+  end
+
 end
