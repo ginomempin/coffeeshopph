@@ -17,4 +17,27 @@ class ActiveSupport::TestCase
     !session[:user_id].nil?
   end
 
+  # Logs in as a test user.
+  def check_log_in_as(user, options = {})
+    password    = options[:password]    || "password"
+    remember_me = options[:remember_me] || '1'
+    if check_integration_test?
+      post login_path, session: { email: user.email,
+                                  password: password,
+                                  remember_me: remember_me }
+    else
+      session[:user_id] = user.id
+    end
+  end
+
+  private
+
+    # Returns true if called inside an integration test.
+    # This method checks if the current test can call the
+    #  'post_via_redirect' method, which is only available
+    #  for integration tests.
+    def check_integration_test?
+      defined?(post_via_redirect)
+    end
+
 end

@@ -115,6 +115,15 @@ a {
   margin-right: 10px;
 }
 
+.checkbox {
+  margin-top: -10px;
+  margin-bottom: 20px;
+  span {
+    margin-left: 20px;
+    font-weight: normal;
+  }
+}
+
 /* --------------------------------- */
 /* Font Awesome                      */
 /* --------------------------------- */
@@ -159,6 +168,11 @@ input {
   }
 }
 
+#session_remember_me {
+  width: auto;
+  margin-left: 0;
+}
+
 /* --------------------------------- */
 /* Site Logo                         */
 /* --------------------------------- */
@@ -174,5 +188,6 @@ input {
 
 #copyright {
   color: $white;
+  margin-top: 20px;
   margin-left: 0px;
 }
