@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
 
+  def show
+    @user = User.find(params[:id])
+  end
+
   def new
     @user = User.new
   end
@@ -19,8 +23,21 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
+  def edit
     @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      # update the messages for page alerts
+      flash[:success] = "Changes were successfully saved."
+      # redirect to the user page
+      redirect_to user_url(@user)
+    else
+      # redisplay the edit form
+      render 'edit'
+    end
   end
 
   private

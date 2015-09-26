@@ -224,3 +224,6 @@ DEPENDENCIES
   uglifier (~> 2.5.3)
   validates_email_format_of (>= 1.6.0)
   web-console (>= 2.0.0)
+
+BUNDLED WITH
+   1.10.6

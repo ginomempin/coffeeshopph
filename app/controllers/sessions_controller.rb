@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
       redirect_to user_url(@user)
     else
       # redisplay the login form
-      flash.now[:danger] = "The submitted Email / Password combination is invalid."
+      flash.now[:danger] = "The submitted email / password combination is invalid."
       render 'new'
     end
   end

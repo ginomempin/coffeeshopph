@@ -5,16 +5,17 @@ class User < ActiveRecord::Base
   #  by 'has_secure_password'.
   attr_accessor :remember_token
 
-  validates :name, presence: true
-  validates :name, length: { maximum: 50 }
+  validates :name, presence:  true,
+                   length:    { maximum: 50 }
 
-  validates :email, presence: true
-  validates :email, length: { maximum: 255 }
-  validates :email, email_format: { message: "format does not appear to be valid" }
-  validates :email, uniqueness: { case_sensitive: false }
+  validates :email, presence:     true,
+                    length:       { maximum: 255 },
+                    email_format: { message: "format does not appear to be valid" },
+                    uniqueness:   { case_sensitive: false }
 
-  validates :password, presence: true
-  validates :password, length: { minimum: 6 }
+  validates :password, presence:  true,
+                       length:    { minimum: 6 },
+                       allow_nil: true
 
   # standardize all input emails to be handled as lowercase
   before_save { self.email.downcase! }
