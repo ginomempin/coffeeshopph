@@ -9,12 +9,13 @@
 /* Conventions                       */
 /* --------------------------------- */
 
-$coffee:  #3e2200;
-$white:   #ffffff;
-$black:   #000000;
-$orange:  #ffa500;
-$blue:    #0099ff;
-$gray:    #abb0ac;
+$coffee:      #3e2200;
+$gray:        #abb0ac;
+$white:       #ffffff;
+$black:       #000000;
+$orange:      #ffa500;
+$blue:        #0099ff;
+$blue-green:  #7cc9d6;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
@@ -121,6 +122,23 @@ a {
   span {
     margin-left: 20px;
     font-weight: normal;
+  }
+}
+
+.users.list-group {
+  margin-left: 25px;
+  .list-group-item:hover {
+    background-color: $blue-green;
+  }
+  .list-group-item {
+    width: 50%;
+    overflow: scroll;
+    img {
+      margin-right: 10px;
+    }
+    .badge {
+      margin-top: 17px;
+    }
   }
 }
 

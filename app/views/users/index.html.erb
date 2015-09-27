@@ -1,0 +1,11 @@
+<% provide(:title, USERS_PAGE_TITLE) %>
+<% provide(:header, USERS_PAGE_HEADER) %>
+<div class="users list-group">
+  <% @users.each do |user| %>
+  <a href="<%= user_url(user) %>" class="list-group-item">
+    <%= gravatar_for(user, size: 50) %>
+    <%= user.name %>
+    <span class="badge">CREW</span>
+  </a>
+  <% end %>
+</div>
