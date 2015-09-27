@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+ruby "2.2.3" # matches the dev env ruby specified in .ruby-version
+             # matches the supported ruby version of Heroku
 
 gem 'rails',                      '4.2.2'
 gem 'bcrypt',                     '>= 3.1.3'

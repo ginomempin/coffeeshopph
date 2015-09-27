@@ -49,6 +49,12 @@ module SessionsHelper
     end
   end
 
+  # Returns true if the specified user is the currently
+  #  logged-in user. Returns false otherwise.
+  def current_user?(user)
+    user == current_user
+  end
+
   # Remembers the logged-in user using a persistent session.
   def remember(user)
     user.remember
@@ -61,6 +67,19 @@ module SessionsHelper
     user.forget
     cookies.delete(:user_id)
     cookies.delete(:remember_token)
+  end
+
+  # Remembers the URL being accessed.
+  def store_location
+    session[:forward_url] = request.url if request.get?
+  end
+
+  # Redirects to the stored forward URL.
+  # If no forward URL is defined, redirects
+  #  to the specified default instead.
+  def redirect_to_stored_location_or(default)
+    redirect_to(session[:forward_url] || default)
+    session.delete(:forward_url)
   end
 
 end

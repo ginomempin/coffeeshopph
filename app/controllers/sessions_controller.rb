@@ -8,16 +8,12 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:session][:password])
       # log the user in and remember the session
       log_in(@user)
-      if params[:session][:remember_me] == '1'
-        remember(@user)
-      else
-        forget(@user)
-      end
-      # redirect to the user page
-      redirect_to user_url(@user)
+      params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
+      # redirect to the forward URL or the user page
+      redirect_to_stored_location_or(user_url(@user))
     else
       # redisplay the login form
-      flash.now[:danger] = "The submitted Email / Password combination is invalid."
+      flash.now[:danger] = "The submitted email / password combination is invalid."
       render 'new'
     end
   end
