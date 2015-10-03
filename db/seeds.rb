@@ -10,7 +10,7 @@ User.create!(name:                  "Gino Mempin",
              password_confirmation: "123456")
 
 # other test users
-49.times do |n|
+99.times do |n|
   name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
   email = "user-#{n+1}@test.com"
   password = "password"

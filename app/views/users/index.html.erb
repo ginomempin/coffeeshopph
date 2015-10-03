@@ -1,11 +1,16 @@
 <% provide(:title, USERS_PAGE_TITLE) %>
 <% provide(:header, USERS_PAGE_HEADER) %>
+
+<%= will_paginate %>
+
 <div class="users list-group">
   <% @users.each do |user| %>
-  <a href="<%= user_url(user) %>" class="list-group-item">
-    <%= gravatar_for(user, size: 50) %>
-    <%= user.name %>
-    <span class="badge">CREW</span>
-  </a>
+    <%= link_to user_url(user), { class: "list-group-item" } do %>
+      <%= gravatar_for(user, size: 50) %>
+      <%= user.name %>
+      <span class="badge">CREW</span>
+    <% end %>
   <% end %>
 </div>
+
+<%= will_paginate %>
