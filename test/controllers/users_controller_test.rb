@@ -21,6 +21,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should redirect index when not logged in" do
     get :index
+    assert_not flash.empty?
     assert_redirected_to login_url
   end
 
@@ -39,7 +40,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should redirect update when not logged in" do
     patch :update, id: @user1.id, user: { name: @user1.name,
-                                         email: @user1.email }
+                                          email: @user1.email }
     assert_not flash.empty?
     assert_redirected_to login_url
   end
@@ -47,15 +48,26 @@ class UsersControllerTest < ActionController::TestCase
   test "should redirect update when logged in as different user" do
     check_log_in_as(@user2)
     patch :update, id: @user1.id, user: { name: @user1.name,
-                                         email: @user1.email }
+                                          email: @user1.email }
     assert flash.empty?
     assert_redirected_to root_url
+  end
+
+  test "should prevent update of admin attribute" do
+    check_log_in_as(@user1)
+    assert_not @user1.admin?
+    patch :update, id: @user1.id, user: { name: @user1.name,
+                                          email: @user1.email,
+                                          admin: true}
+    assert_not flash.empty?
+    assert_not @user1.reload.admin?, "admin attribute should not be editable"
   end
 
   test "should redirect delete when not logged in" do
     assert_no_difference "User.count" do
       delete :destroy, id: @user1.id
     end
+    assert_not flash.empty?
     assert_redirected_to login_url
   end
 
@@ -64,6 +76,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference "User.count" do
       delete :destroy, id: @user1.id
     end
+    assert flash.empty?
     assert_redirected_to root_url
   end
 

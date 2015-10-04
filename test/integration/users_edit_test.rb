@@ -18,10 +18,9 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   end
 
   test "successful edit with friendly forwarding" do
-    get edit_user_path(@user)
     check_log_in_as(@user)
-    # expect to be forwarded to the original page being accessed
-    assert_redirected_to edit_user_path(@user)
+    get edit_user_path(@user)
+    assert_template "users/edit"
     new_name = "Test Admin 1 EDITED"
     new_email = "admin1_edited@test.com"
     # blank passwords should be OK since users
