@@ -3,7 +3,7 @@ require 'test_helper'
 class UsersEditTest < ActionDispatch::IntegrationTest
 
   def setup
-    @user = users(:user1)
+    @user = users(:admin1)
   end
 
   test "unsuccessful edit" do
@@ -22,8 +22,8 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     check_log_in_as(@user)
     # expect to be forwarded to the original page being accessed
     assert_redirected_to edit_user_path(@user)
-    new_name = "Test User 1 EDITED"
-    new_email = "user1_edited@test.com"
+    new_name = "Test Admin 1 EDITED"
+    new_email = "admin1_edited@test.com"
     # blank passwords should be OK since users
     #  shouldn't be required to also update their
     #  passwords when updating their profile

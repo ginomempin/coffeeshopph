@@ -3,8 +3,8 @@ require 'test_helper'
 class UsersControllerTest < ActionController::TestCase
 
   def setup
-    @user1 = users(:user1)
-    @user2 = users(:user2)
+    @user1 = users(:admin1)
+    @user2 = users(:admin2)
     @sel_title = "title"
     @sel_header = "h1"
   end
@@ -17,6 +17,11 @@ class UsersControllerTest < ActionController::TestCase
     assert_select @sel_title, "#{APP_NAME} | #{SIGNUP_PAGE_TITLE}"
     # check the page header
     assert_select @sel_header, SIGNUP_PAGE_HEADER
+  end
+
+  test "should redirect index when not logged in" do
+    get :index
+    assert_redirected_to login_url
   end
 
   test "should redirect edit when not logged in" do

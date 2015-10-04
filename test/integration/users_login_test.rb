@@ -4,7 +4,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
 
   def setup
     # get the test user from the test fixture user.yml
-    @user = users(:user1)
+    @user = users(:admin1)
   end
 
   test "error-login with invalid credentials" do
