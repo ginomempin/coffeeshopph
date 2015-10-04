@@ -16,6 +16,7 @@ $black:       #000000;
 $orange:      #ffa500;
 $blue:        #0099ff;
 $blue-green:  #7cc9d6;
+$red:         #c9444d;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
@@ -23,11 +24,12 @@ $blue-green:  #7cc9d6;
   box-sizing: border-box;
 }
 
-@mixin colored-links ($display:$blue, $hover:$orange) {
+@mixin colored-links ($display:$blue, $background:$white, $hover:$orange) {
+  background-color: $background;
   color: $display;
+  text-decoration: none !important;
   &:hover {
     color: $hover;
-    text-decoration: none;
   }
 }
 
@@ -89,6 +91,16 @@ a {
   text-align: center;
 }
 
+.list-actions {
+  margin-bottom: 10px;
+  padding-right: 5px;
+  text-align: right;
+  .list-actions-danger {
+    padding: 4px;
+    @include colored-links($white, $red, $white);
+  }
+}
+
 /* --------------------------------- */
 /* Bootstrap                         */
 /* --------------------------------- */
@@ -100,14 +112,14 @@ a {
 
 .nav.navbar-nav.navbar-right {
   li:not(.dropdown) a {
-    @include colored-links($white);
+    @include colored-links($white, $coffee);
   }
   li.dropdown {
     a {
-      @include colored-links($white);
+      @include colored-links($white, $coffee);
     }
     .dropdown-menu li a {
-      @include colored-links($black);
+      @include colored-links($black, $white);
     }
   }
 }
@@ -126,12 +138,12 @@ a {
 }
 
 .users.list-group {
+  width: 50%;
   margin-left: 25px;
   .list-group-item:hover {
     background-color: $blue-green;
   }
   .list-group-item {
-    width: 50%;
     overflow: scroll;
     img {
       margin-right: 10px;
@@ -196,7 +208,7 @@ input {
 /* --------------------------------- */
 
 #logo {
-  @include colored-links($white);
+  @include colored-links($white, $coffee);
   font-size: 1.7em;
 }
 

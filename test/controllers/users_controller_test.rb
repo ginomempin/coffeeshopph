@@ -3,8 +3,8 @@ require 'test_helper'
 class UsersControllerTest < ActionController::TestCase
 
   def setup
-    @user1 = users(:admin1)
-    @user2 = users(:admin2)
+    @user1 = users(:user1)
+    @user2 = users(:user2)
     @sel_title = "title"
     @sel_header = "h1"
   end
@@ -49,6 +49,21 @@ class UsersControllerTest < ActionController::TestCase
     patch :update, id: @user1.id, user: { name: @user1.name,
                                          email: @user1.email }
     assert flash.empty?
+    assert_redirected_to root_url
+  end
+
+  test "should redirect delete when not logged in" do
+    assert_no_difference "User.count" do
+      delete :destroy, id: @user1.id
+    end
+    assert_redirected_to login_url
+  end
+
+  test "should redirect delete when logged-in as non-admin" do
+    check_log_in_as(@user1)
+    assert_no_difference "User.count" do
+      delete :destroy, id: @user1.id
+    end
     assert_redirected_to root_url
   end
 
