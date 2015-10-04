@@ -3,8 +3,8 @@ require 'test_helper'
 class UsersControllerTest < ActionController::TestCase
 
   def setup
-    @user1 = users(:user1)
-    @user2 = users(:user2)
+    @user1 = users(:admin1)
+    @user2 = users(:admin2)
     @sel_title = "title"
     @sel_header = "h1"
   end
