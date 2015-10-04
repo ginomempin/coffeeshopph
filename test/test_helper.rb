@@ -30,6 +30,14 @@ class ActiveSupport::TestCase
     end
   end
 
+  def check_log_out
+    if check_integration_test?
+      delete logout_path
+    else
+      session.delete(:user_id)
+    end
+  end
+
   private
 
     # Returns true if called inside an integration test.
