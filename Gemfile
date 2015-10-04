@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+ruby "2.2.3" # matches the dev env ruby specified in .ruby-version
+             # matches the supported ruby version of Heroku
 
 gem 'rails',                      '4.2.2'
 gem 'bcrypt',                     '>= 3.1.3'
@@ -12,6 +14,9 @@ gem 'jquery-rails',               '~> 4.0.3'
 gem 'turbolinks',                 '>= 2.3.0'
 gem 'jbuilder',                   '~> 2.2.0'
 gem 'sdoc',                       '~> 0.4.0', group: :doc
+gem 'faker',                      '>= 1.5.0'
+gem 'will_paginate',              '>= 3.0.0'
+gem 'bootstrap-will_paginate',    '~> 0.0.10'
 
 group :development, :test do
   gem 'sqlite3',                  '~> 1.3.0'

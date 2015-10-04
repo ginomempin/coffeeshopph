@@ -9,12 +9,14 @@
 /* Conventions                       */
 /* --------------------------------- */
 
-$coffee:  #3e2200;
-$white:   #ffffff;
-$black:   #000000;
-$orange:  #ffa500;
-$blue:    #0099ff;
-$gray:    #abb0ac;
+$coffee:      #3e2200;
+$gray:        #abb0ac;
+$white:       #ffffff;
+$black:       #000000;
+$orange:      #ffa500;
+$blue:        #0099ff;
+$blue-green:  #7cc9d6;
+$red:         #c9444d;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
@@ -22,11 +24,12 @@ $gray:    #abb0ac;
   box-sizing: border-box;
 }
 
-@mixin colored-links ($display:$blue, $hover:$orange) {
+@mixin colored-links ($display:$blue, $background:$white, $hover:$orange) {
+  background-color: $background;
   color: $display;
+  text-decoration: none !important;
   &:hover {
     color: $hover;
-    text-decoration: none;
   }
 }
 
@@ -88,6 +91,16 @@ a {
   text-align: center;
 }
 
+.list-actions {
+  margin-bottom: 10px;
+  padding-right: 5px;
+  text-align: right;
+  .list-actions-danger {
+    padding: 4px;
+    @include colored-links($white, $red, $white);
+  }
+}
+
 /* --------------------------------- */
 /* Bootstrap                         */
 /* --------------------------------- */
@@ -99,14 +112,14 @@ a {
 
 .nav.navbar-nav.navbar-right {
   li:not(.dropdown) a {
-    @include colored-links($white);
+    @include colored-links($white, $coffee);
   }
   li.dropdown {
     a {
-      @include colored-links($white);
+      @include colored-links($white, $coffee);
     }
     .dropdown-menu li a {
-      @include colored-links($black);
+      @include colored-links($black, $white);
     }
   }
 }
@@ -121,6 +134,23 @@ a {
   span {
     margin-left: 20px;
     font-weight: normal;
+  }
+}
+
+.users.list-group {
+  width: 50%;
+  margin-left: 25px;
+  .list-group-item:hover {
+    background-color: $blue-green;
+  }
+  .list-group-item {
+    overflow: scroll;
+    img {
+      margin-right: 10px;
+    }
+    .badge {
+      margin-top: 17px;
+    }
   }
 }
 
@@ -178,7 +208,7 @@ input {
 /* --------------------------------- */
 
 #logo {
-  @include colored-links($white);
+  @include colored-links($white, $coffee);
   font-size: 1.7em;
 }
 
