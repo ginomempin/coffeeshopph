@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :require_logged_in_user,  only: [:index, :edit, :update]
+  before_action :require_logged_in_user,  only: [:index, :edit, :update, :destroy]
   before_action :require_correct_user,    only: [:edit, :update]
+  before_action :require_admin_user,      only: [:destroy]
 
   def index
     # TODO: make these settings configurable on the page
@@ -23,9 +24,8 @@ class UsersController < ApplicationController
     if @user.save
       # automatically log in the new user
       log_in(@user)
-      # update the messages for page alerts
+      # redirect to the new user's profile page
       flash[:success] = "Welcome to the #{APP_NAME}!"
-      # redirect to the user page
       redirect_to user_url(@user)
     else
       # redisplay the signup form
@@ -40,14 +40,20 @@ class UsersController < ApplicationController
   def update
     # @user is already defined in a before action
     if @user.update_attributes(user_params)
-      # update the messages for page alerts
+      # redirect to the user's updated profile page
       flash[:success] = "Changes were successfully saved."
-      # redirect to the user page
       redirect_to user_url(@user)
     else
-      # redisplay the edit form
+      # redisplay the edit profile form
       render 'edit'
     end
+  end
+
+  def destroy
+    User.find(params[:id]).destroy
+    # redirect to the list of users page
+    flash[:success] = "User was successfully deleted."
+    redirect_to users_url
   end
 
   private
@@ -73,6 +79,10 @@ class UsersController < ApplicationController
     def require_correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)
+    end
+
+    def require_admin_user
+      redirect_to(root_url) unless current_user.admin?
     end
 
 end
