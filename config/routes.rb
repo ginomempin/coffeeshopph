@@ -8,13 +8,16 @@ Rails.application.routes.draw do
   get       '/about'    => 'static_pages#about'
   get       '/contact'  => 'static_pages#contact'
 
-  # Sessions (Login, Logout, Authentication)
+  # Sessions (Login, Logout)
   get       '/login'    => 'sessions#new'
   post      '/login'    => 'sessions#create'
   delete    '/logout'   => 'sessions#destroy'
 
-  # Users (Signup, Profile)
+  # Users (Signup, Index, Show, Edit, Delete)
   get       '/signup'   => 'users#new'
   resources :users
+
+  # Account Activations
+  resources :account_activations, only: [:edit]
 
 end

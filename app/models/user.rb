@@ -1,9 +1,10 @@
 class User < ActiveRecord::Base
 
-  # This attribute is analogous to the virtual 'password' and
-  #  'password_confirmation' attributes automatically created
-  #  by 'has_secure_password'.
-  attr_accessor :remember_token
+  # These attributes are analogous to the virtual 'password' and
+  #  'password_confirmation' attributes automatically created by
+  #  the has_secure_password' method.
+  attr_accessor :remember_token,
+                :activation_token
 
   validates :name, presence:  true,
                    length:    { maximum: 50 }
@@ -17,8 +18,9 @@ class User < ActiveRecord::Base
                        length:    { minimum: 6 },
                        allow_nil: true
 
-  # standardize all input emails to be handled as lowercase
-  before_save { self.email.downcase! }
+  before_save :downcase_email
+
+  before_create :create_activation_digest
 
   has_secure_password
 
@@ -69,5 +71,21 @@ class User < ActiveRecord::Base
   def User.token
     SecureRandom.urlsafe_base64
   end
+
+  #-------------------
+  # Private Methods
+  #-------------------
+  private
+
+    # Standardizes all input emails to be handled as lowercase.
+    def downcase_email
+      self.email.downcase!
+    end
+
+    # Generates the activation token and digest for new users.
+    def create_activation_digest
+      self.activation_token = User.token
+      self.activation_digest = User.digest(self.activation_token)
+    end
 
 end
