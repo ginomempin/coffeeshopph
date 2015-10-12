@@ -36,12 +36,18 @@ class User < ActiveRecord::Base
     update_attribute(:remember_digest, User.digest(self.remember_token))
   end
 
-  # Returns TRUE if the passed 'remember_token' matches the saved
-  #  'remember_digest' in the database. This is analogous to the
-  #  'authenticate' method of the 'has_secure_password' method.
-  def authenticated?(remember_token)
-    return false if self.remember_digest.nil?
-    BCrypt::Password.new(self.remember_digest).is_password?(remember_token)
+  # Returns TRUE if the passed 'token' matches the saved
+  #  'digest' in the database. This is analogous to the
+  #  'authenticate' method of the 'has_secure_password'
+  #  method.
+  # This method uses metaprogramming to select the correct
+  #  'digest' depending on the attribute.
+  #  ex. self.send("password_digest") is equivalent to
+  #      self.password_digest
+  def authenticated?(attribute, token)
+    digest = self.send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
   end
 
   # Reverses the remember method.
