@@ -22,11 +22,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      # automatically log in the new user
-      log_in(@user)
-      # redirect to the new user's profile page
-      flash[:success] = "Welcome to the #{APP_NAME}!"
-      redirect_to user_url(@user)
+      UserMailer.account_activation(@user).deliver_now
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
       # redisplay the signup form
       render 'new'

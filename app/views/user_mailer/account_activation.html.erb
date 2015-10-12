@@ -1,0 +1,12 @@
+<h1>CoffeeShopPH</h1>
+
+<p>
+  Hi <%= @user.name %>,<br>
+  <br>
+  Welcome to the CoffeeShopPH!<br>
+  <br>
+  Thank you for signing-up.<br>
+  Click on the link below to complete the activation of your account:<br>
+  <%= link_to "Activate", edit_account_activation_url(@user.activation_token,
+                                                      email: @user.email) %>
+</p>
