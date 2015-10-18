@@ -1,9 +1,10 @@
 class User < ActiveRecord::Base
 
-  # This attribute is analogous to the virtual 'password' and
-  #  'password_confirmation' attributes automatically created
-  #  by 'has_secure_password'.
-  attr_accessor :remember_token
+  # These attributes are analogous to the virtual 'password' and
+  #  'password_confirmation' attributes automatically created by
+  #  the has_secure_password' method.
+  attr_accessor :remember_token,
+                :activation_token
 
   validates :name, presence:  true,
                    length:    { maximum: 50 }
@@ -17,8 +18,9 @@ class User < ActiveRecord::Base
                        length:    { minimum: 6 },
                        allow_nil: true
 
-  # standardize all input emails to be handled as lowercase
-  before_save { self.email.downcase! }
+  before_save :downcase_email
+
+  before_create :create_activation_digest
 
   has_secure_password
 
@@ -34,18 +36,35 @@ class User < ActiveRecord::Base
     update_attribute(:remember_digest, User.digest(self.remember_token))
   end
 
-  # Returns TRUE if the passed 'remember_token' matches the saved
-  #  'remember_digest' in the database. This is analogous to the
-  #  'authenticate' method of the 'has_secure_password' method.
-  def authenticated?(remember_token)
-    return false if self.remember_digest.nil?
-    BCrypt::Password.new(self.remember_digest).is_password?(remember_token)
+  # Returns TRUE if the passed 'token' matches the saved
+  #  'digest' in the database. This is analogous to the
+  #  'authenticate' method of the 'has_secure_password'
+  #  method.
+  # This method uses metaprogramming to select the correct
+  #  'digest' depending on the attribute.
+  #  ex. self.send("password_digest") is equivalent to
+  #      self.password_digest
+  def authenticated?(attribute, token)
+    digest = self.send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
   end
 
   # Reverses the remember method.
   def forget
     self.remember_token = nil
     update_attribute(:remember_digest, nil)
+  end
+
+  # Activates the user.
+  def activate
+    update_attribute(:activated, true)
+    update_attribute(:activated_at, Time.zone.now)
+  end
+
+  # Sends the user activation email.
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
   end
 
   #-------------------
@@ -69,5 +88,21 @@ class User < ActiveRecord::Base
   def User.token
     SecureRandom.urlsafe_base64
   end
+
+  #-------------------
+  # Private Methods
+  #-------------------
+  private
+
+    # Standardizes all input emails to be handled as lowercase.
+    def downcase_email
+      self.email.downcase!
+    end
+
+    # Generates the activation token and digest for new users.
+    def create_activation_digest
+      self.activation_token = User.token
+      self.activation_digest = User.digest(self.activation_token)
+    end
 
 end
