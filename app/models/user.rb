@@ -4,7 +4,11 @@ class User < ActiveRecord::Base
   #  'password_confirmation' attributes automatically created by
   #  the has_secure_password' method.
   attr_accessor :remember_token,
-                :activation_token
+                :activation_token,
+                :password_reset_token
+
+  before_create :create_activation_digest
+  before_save   :downcase_email
 
   validates :name, presence:  true,
                    length:    { maximum: 50 }
@@ -16,11 +20,7 @@ class User < ActiveRecord::Base
 
   validates :password, presence:  true,
                        length:    { minimum: 6 },
-                       allow_nil: true
-
-  before_save :downcase_email
-
-  before_create :create_activation_digest
+                       allow_nil: true  # allow updating the user profile with an empty password
 
   has_secure_password
 
@@ -65,6 +65,26 @@ class User < ActiveRecord::Base
   # Sends the user activation email.
   def send_activation_email
     UserMailer.account_activation(self).deliver_now
+  end
+
+  # Generates the password reset token and digest.
+  def create_password_reset_digest
+    self.password_reset_token = User.token
+    update_attribute(:password_reset_digest,
+                     User.digest(self.password_reset_token))
+    update_attribute(:password_reset_sent_at,
+                     Time.zone.now)
+  end
+
+  # Sends the password reset email.
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  # Checks if the password token is still valid
+  def password_reset_expired?
+    # TODO: the '2' hour expiration should be defined in an app constant
+    self.password_reset_sent_at < 2.hours.ago 
   end
 
   #-------------------

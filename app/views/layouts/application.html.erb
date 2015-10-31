@@ -14,7 +14,7 @@
       <% flash.each do |message_type, message| %>
         <%= content_tag(:div, message, class:"alert alert-#{message_type}") %>
       <% end %>
-      <h1><%= format_page_header(yield(:header)) %></h1>
+      <h1 class="center"><%= format_page_header(yield(:header)) %></h1>
       <%= yield %>
     </div>
     <%= render 'layouts/shared/footer' %>
