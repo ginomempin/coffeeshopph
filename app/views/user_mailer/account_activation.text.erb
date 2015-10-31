@@ -1,0 +1,8 @@
+Hi <%= @user.name %>,
+
+Welcome to the CoffeeShopPH!
+
+Thank you for signing-up.
+Click on the link below to complete the activation of your account:
+<%= edit_account_activation_url(@user.activation_token,
+                                email: @user.email) %>
