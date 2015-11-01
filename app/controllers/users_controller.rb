@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_logged_in_user,  only: [:index, :edit, :update, :destroy]
+  before_action :require_logged_in_user,  only: [:index, :show, :edit, :update, :destroy]
   before_action :require_correct_user,    only: [:edit, :update]
   before_action :require_admin_user,      only: [:destroy]
 
@@ -7,12 +7,17 @@ class UsersController < ApplicationController
     # TODO: make these settings configurable on the page
     user_order = USERS_DEFAULT_ORDER_BY
     user_count = USERS_DEFAULT_PER_PAGE
-    @users = User.order(user_order).paginate(page: params[:page],
-                                             per_page: user_count)
+    @users = User.where(activated: true)
+                 .order(user_order)
+                 .paginate(page: params[:page],
+                           per_page: user_count)
   end
 
   def show
     @user = User.find(params[:id])
+    unless @user.activated?
+      redirect_to root_url and return
+    end
   end
 
   def new
