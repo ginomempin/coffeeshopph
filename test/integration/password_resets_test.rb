@@ -69,7 +69,35 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?
     assert check_logged_in?
     assert_redirected_to user_url(user)
+  end
 
+  test "password reset link is expired" do
+    # visit the Password Reset form
+    get new_password_reset_path
+    assert_template "password_resets/new"
+
+    # submit a valid email address
+    post password_resets_path, password_reset: { email: @user.email }
+
+    # get the @user instance variable from the view/controller
+    user = assigns(:user)
+
+    # forcibly expire the password_reset_sent_at time of the user
+    user.update_attribute(:password_reset_sent_at, 4.hours.ago)
+
+    # click on the password reset link
+    get edit_password_reset_path(user.password_reset_token, email: user.email)
+
+    # submit the valid email address
+    patch password_reset_path(user.password_reset_token),
+          email: user.email,
+          user: { password:              "123456",
+                  password_confirmation: "123456" }
+
+    assert_not flash.empty?
+    assert_redirected_to new_password_reset_path
+    follow_redirect!
+    assert_match /expired/i, response.body
   end
 
 end
