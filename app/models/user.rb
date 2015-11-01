@@ -58,8 +58,8 @@ class User < ActiveRecord::Base
 
   # Activates the user.
   def activate
-    update_attribute(:activated, true)
-    update_attribute(:activated_at, Time.zone.now)
+    update_columns(activated:    true,
+                   activated_at: Time.zone.now)
   end
 
   # Sends the user activation email.
@@ -70,10 +70,8 @@ class User < ActiveRecord::Base
   # Generates the password reset token and digest.
   def create_password_reset_digest
     self.password_reset_token = User.token
-    update_attribute(:password_reset_digest,
-                     User.digest(self.password_reset_token))
-    update_attribute(:password_reset_sent_at,
-                     Time.zone.now)
+    update_columns(password_reset_digest:  User.digest(self.password_reset_token),
+                   password_reset_sent_at: Time.zone.now)
   end
 
   # Sends the password reset email.
@@ -84,7 +82,7 @@ class User < ActiveRecord::Base
   # Checks if the password token is still valid
   def password_reset_expired?
     # TODO: the '2' hour expiration should be defined in an app constant
-    self.password_reset_sent_at < 2.hours.ago 
+    self.password_reset_sent_at < 2.hours.ago
   end
 
   #-------------------
