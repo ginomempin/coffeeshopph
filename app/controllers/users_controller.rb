@@ -68,17 +68,6 @@ class UsersController < ApplicationController
                                    :password_confirmation)
     end
 
-    def require_logged_in_user
-      unless logged_in?
-        # remember the URL that the user is trying to access
-        # so the user can be redirected back to it after a
-        # successful login
-        store_location
-        flash[:danger] = "Please log in to access the page."
-        redirect_to login_url
-      end
-    end
-
     def require_correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)

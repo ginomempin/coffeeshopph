@@ -1,5 +1,16 @@
 module SessionsHelper
 
+  def require_logged_in_user
+    unless logged_in?
+      # remember the URL that the user is trying to access
+      # so the user can be redirected back to it after a
+      # successful login
+      store_location
+      flash[:danger] = "Please log in to access the page."
+      redirect_to login_url
+    end
+  end
+
   # Logs-in the specified user.
   # Uses the built-in Rails method 'session', which
   #   stores a temporary and encrypted cookie on the

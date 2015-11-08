@@ -40,7 +40,7 @@ end
                 served:   served)
 end
 
-# waiting to be served
+# pending
 6.upto(10) do |n|
   name = "Order #{n}"
   price = Random.new.rand(30.0..500.0)
