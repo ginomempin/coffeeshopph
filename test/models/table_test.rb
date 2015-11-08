@@ -10,7 +10,7 @@ class TableTest < ActiveSupport::TestCase
                        total_bill:  500)
   end
 
-  test "should create valid a table" do
+  test "should create a valid table" do
     assert @table.valid?
   end
 
@@ -66,6 +66,10 @@ class TableTest < ActiveSupport::TestCase
   test "total_bill should be non-negative" do
     @table.total_bill = -1
     assert_not @table.valid?
+    @table.total_bill = 0
+    assert @table.valid?
+    @table.total_bill = 1
+    assert @table.valid?
   end
 
 end
