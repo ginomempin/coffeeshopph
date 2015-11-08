@@ -25,3 +25,28 @@ User.create!(name:                  "Gino Mempin",
                activated:             true,
                activated_at:          Time.zone.now)
 end
+
+##### TABLES #####
+
+# guaranteed unoccupied
+name = "T1"
+max_persons = Random.new.rand(2..4)
+num_persons = 0
+total_bill = Random.new.rand(100..1000)
+Table.create!(name:         name,
+              max_persons:  max_persons,
+              num_persons:  num_persons,
+              total_bill:   total_bill)
+
+# random occupied/unoccupied
+2.upto(10) do |n|
+  name = "T#{n}"
+  max_persons = Random.new.rand(2..4)
+  num_persons = Random.new.rand(0..max_persons)
+  total_bill = Random.new.rand(100..1000)
+  Table.create!(name:         name,
+                max_persons:  max_persons,
+                num_persons:  num_persons,
+                total_bill:   total_bill)
+
+end
