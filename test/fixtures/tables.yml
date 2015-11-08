@@ -1,11 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+# occupied
+<% 1.upto(5) do |n| %>
+table<%= n %>:
+  name:             <%= "Table #{n}" %>
+  max_persons:      4
+  num_persons:      2
+  occupied:         true
+  total_bill:       500
+<% end %>
+
+# unoccupied
+<% 6.upto(10) do |n| %>
+table<%= n %>:
+  name:             <%= "Table #{n}" %>
+  max_persons:      4
+  num_persons:      0
+  occupied:         false
+  total_bill:       500
+<% end %>
