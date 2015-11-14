@@ -48,5 +48,30 @@ Table.create!(name:         name,
                 max_persons:  max_persons,
                 num_persons:  num_persons,
                 total_bill:   total_bill)
+end
 
+##### ORDERS #####
+
+# served
+1.upto(5) do |n|
+  name = "Order #{n}"
+  price = Random.new.rand(30.0..500.0)
+  quantity = Random.new.rand(1..4)
+  served = true
+  Order.create!(name:     name,
+                price:    price,
+                quantity: quantity,
+                served:   served)
+end
+
+# pending
+6.upto(10) do |n|
+  name = "Order #{n}"
+  price = Random.new.rand(30.0..500.0)
+  quantity = Random.new.rand(1..4)
+  served = false
+  Order.create!(name:     name,
+                price:    price,
+                quantity: quantity,
+                served:   served)
 end

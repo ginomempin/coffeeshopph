@@ -26,4 +26,7 @@ Rails.application.routes.draw do
   # Tables (Create, Index, Show, Edit, Delete)
   resources :tables
 
+  # Orders (Create, Index, Show, Edit, Delete)
+  resources :orders
+
 end
