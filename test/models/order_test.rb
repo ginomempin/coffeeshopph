@@ -3,14 +3,20 @@ require 'test_helper'
 class OrderTest < ActiveSupport::TestCase
 
   def setup
-    @order = Order.new(name:        "Order 1",
-                       price:       300,
-                       quantity:    1,
-                       served:      false)
+    @table = tables(:table1)
+    @order = @table.orders.build(name:     "Order 1",
+                                 price:    300,
+                                 quantity: 1,
+                                 served:   false)
   end
 
   test "should create a valid order" do
     assert @order.valid?
+  end
+
+  test "no table association should be invalid" do
+    @order.table_id = nil
+    assert_not @order.valid?
   end
 
   test "empty name should be invalid" do
@@ -49,6 +55,10 @@ class OrderTest < ActiveSupport::TestCase
     assert @order.valid?
     @order.quantity = 2
     assert @order.valid?
+  end
+
+  test "order should be most recent first" do
+    assert_equal orders(:order1), Order.first
   end
 
 end

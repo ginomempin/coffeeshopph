@@ -52,7 +52,7 @@ end
 
 ##### ORDERS #####
 
-# served
+# served (all for the first table)
 1.upto(5) do |n|
   name = "Order #{n}"
   price = Random.new.rand(30.0..500.0)
@@ -61,10 +61,11 @@ end
   Order.create!(name:     name,
                 price:    price,
                 quantity: quantity,
-                served:   served)
+                served:   served,
+                table_id: 1 )
 end
 
-# pending
+# pending (1 for each table)
 6.upto(10) do |n|
   name = "Order #{n}"
   price = Random.new.rand(30.0..500.0)
@@ -73,5 +74,6 @@ end
   Order.create!(name:     name,
                 price:    price,
                 quantity: quantity,
-                served:   served)
+                served:   served,
+                table_id: n)
 end

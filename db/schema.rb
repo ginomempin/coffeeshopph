@@ -18,9 +18,13 @@ ActiveRecord::Schema.define(version: 20151114104536) do
     t.decimal  "price",      precision: 7, scale: 2, default: 0.0,   null: false
     t.integer  "quantity",                           default: 0,     null: false
     t.boolean  "served",                             default: false
+    t.integer  "table_id"
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
   end
+
+  add_index "orders", ["table_id", "created_at"], name: "index_orders_on_table_id_and_created_at"
+  add_index "orders", ["table_id"], name: "index_orders_on_table_id"
 
   create_table "promos", force: :cascade do |t|
     t.string   "name",       null: false

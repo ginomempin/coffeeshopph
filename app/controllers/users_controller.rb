@@ -5,12 +5,10 @@ class UsersController < ApplicationController
 
   def index
     # TODO: make these settings configurable on the page
-    user_order = USERS_DEFAULT_ORDER_BY
-    user_count = USERS_DEFAULT_PER_PAGE
     @users = User.where(activated: true)
-                 .order(user_order)
+                 .order(name: :asc)
                  .paginate(page: params[:page],
-                           per_page: user_count)
+                           per_page: USERS_DEFAULT_PER_PAGE)
   end
 
   def show

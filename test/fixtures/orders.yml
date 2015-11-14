@@ -7,6 +7,7 @@ order<%= n %>:
   price:            150.75
   quantity:         2
   served:           true
+  created_at:       <%= n.minutes.ago %>
 <% end %>
 
 # pending
@@ -16,4 +17,5 @@ order<%= n %>:
   price:            300.25
   quantity:         1
   served:           false
+  created_at:       <%= n.minutes.ago %>
 <% end %>
