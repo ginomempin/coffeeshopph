@@ -23,4 +23,7 @@ Rails.application.routes.draw do
   # Password Resets
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
+  # Tables (Create, Index, Show, Edit, Delete)
+  resources :tables
+
 end

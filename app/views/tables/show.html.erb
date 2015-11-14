@@ -1,0 +1,22 @@
+<% provide(:title, TABLES_PAGE_TITLE) %>
+<% provide(:header, @table.name) %>
+<div class="center">
+  <div>
+    <% if @table.occupied? %>
+      <span class="label label-warning">OCCUPIED</span>
+    <% else %>
+      <span class="label label-success">FREE</span>
+    <% end %>
+    MAX: <span class="badge"><%= @table.max_persons %></span>
+    NOW: <span class="badge"><%= @table.num_persons %></span>
+  </div>
+  <br>
+  <div class="panel panel-default">
+    <div class="panel-heading"><b>Orders</b></div>
+    <ul class="list-group">
+      <li class="list-group-item">Order #1</li>
+      <li class="list-group-item">Order #2</li>
+      <li class="list-group-item">Order #3</li>
+    </ul>
+  </div>
+</div>
