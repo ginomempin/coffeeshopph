@@ -74,4 +74,15 @@ class PromoTest < ActiveSupport::TestCase
     assert_not promo2.save
   end
 
+  test "generate code only during creation" do
+    promo_new = Promo.new(name: "Anniversary Sale")
+    assert promo_new.save
+    promo_find = Promo.find_by(name: promo_new.name)
+    assert_not promo_find.nil?
+    assert_equal promo_new.code, promo_find.code
+    promo_find = Promo.find_by(code: promo_new.code)
+    assert_not promo_find.nil?
+    assert_equal promo_new.name, promo_find.name
+  end
+
 end
