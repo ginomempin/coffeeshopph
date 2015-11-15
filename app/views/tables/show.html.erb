@@ -26,7 +26,7 @@
             <% end %>
             <br>
             <span class="name"><%= order.name %></span><br>
-            <span class="price"><%= order.price %>, <%= order.quantity %></span><br>
+            <span class="total"><%= order.price %>, <%= order.quantity %></span><br>
             <span class="timestamp">
               Ordered <%= time_ago_in_words(order.created_at) %> ago
             </span>

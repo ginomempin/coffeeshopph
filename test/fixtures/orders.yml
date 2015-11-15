@@ -1,21 +1,54 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# served
-<% 1.upto(5) do |n| %>
+# prepare orders only for the occupied tables
+
+# orders for table1
+<% 1.upto(3) do |n| %>
 order<%= n %>:
   name:             <%= "Order #{n}" %>
-  price:            150.75
-  quantity:         2
-  served:           true
+  price:            <%= n * 50.0 %>
+  quantity:         1
+  served:           <%= n % 2 ? true : false %>
   created_at:       <%= n.minutes.ago %>
+  table:            table1
 <% end %>
 
-# pending
-<% 6.upto(10) do |n| %>
+# orders for table2
+<% 4.upto(5) do |n| %>
 order<%= n %>:
   name:             <%= "Order #{n}" %>
-  price:            300.25
+  price:            <%= n * 30.75 %>
   quantity:         1
-  served:           false
+  served:           <%= n % 2 ? true : false %>
   created_at:       <%= n.minutes.ago %>
+  table:            table2
+<% end %>
+
+# orders for table3
+order6:
+  name:             "Order 6"
+  price:            200
+  quantity:         2
+  served:           false
+  created_at:       <%= 6.minutes.ago %>
+  table:            table3
+
+# orders for table4
+order7:
+  name:             "Order 7"
+  price:            75
+  quantity:         1
+  served:           true
+  created_at:       <%= 7.minutes.ago %>
+  table:            table4
+
+# orders for table5
+<% 8.upto(10) do |n| %>
+order<%= n %>:
+  name:             <%= "Order #{n}" %>
+  price:            <%= n * 45.25 %>
+  quantity:         2
+  served:           <%= n % 2 ? true : false %>
+  created_at:       <%= n.minutes.ago %>
+  table:            table5
 <% end %>
