@@ -8,6 +8,7 @@ class TablesController < ApplicationController
 
   def show
     @table = Table.find_by(id: params[:id])
+    @orders = @table.orders
   end
 
 end
