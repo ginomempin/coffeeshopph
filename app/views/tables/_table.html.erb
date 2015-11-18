@@ -1,9 +1,9 @@
 <div>
-  <% if @table.occupied? %>
+  <% if table.occupied? %>
     <span class="label label-warning">OCCUPIED</span>
   <% else %>
     <span class="label label-success">FREE</span>
   <% end %>
-  MAX: <span class="badge"><%= @table.max_persons %></span>
-  NOW: <span class="badge"><%= @table.num_persons %></span>
+  MAX: <span class="badge"><%= table.max_persons %></span>
+  NOW: <span class="badge"><%= table.num_persons %></span>
 </div>
