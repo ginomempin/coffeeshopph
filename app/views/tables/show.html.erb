@@ -10,7 +10,17 @@
     MAX: <span class="badge"><%= @table.max_persons %></span>
     NOW: <span class="badge"><%= @table.num_persons %></span>
   </div>
-  <br>
+</div>
+<br>
+<div class="col-md-4">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <b>Add Order</b>
+    </div>
+    <%= render partial: 'orders/form' %>
+  </div>
+</div>
+<div class="col-md-8">
   <div class="panel panel-default">
     <div class="panel-heading">
       <b>Orders: <%= @orders.count %></b>
@@ -28,7 +38,7 @@
             <span class="name"><%= order.name %></span><br>
             <span class="total"><%= order.price %>, <%= order.quantity %></span><br>
             <span class="timestamp">
-              Ordered <%= time_ago_in_words(order.created_at) %> ago
+              Ordered <%= time_ago_in_words(order.created_at, include_seconds: true) %> ago
             </span>
           </li>
         <% end %>

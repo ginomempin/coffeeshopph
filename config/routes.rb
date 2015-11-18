@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   post      '/login'    => 'sessions#create'
   delete    '/logout'   => 'sessions#destroy'
 
-  # Users (Signup, Index, Show, Edit, Delete)
+  # Users
   get       '/signup'   => 'users#new'
   resources :users
 
@@ -23,10 +23,10 @@ Rails.application.routes.draw do
   # Password Resets
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
-  # Tables (Create, Index, Show, Edit, Delete)
+  # Tables
   resources :tables
 
-  # Orders (Create, Index, Show, Edit, Delete)
-  resources :orders
+  # Orders
+  resources :orders,              only: [:index, :show, :create, :destroy]
 
 end

@@ -8,7 +8,14 @@ class TablesController < ApplicationController
 
   def show
     @table = Table.find_by(id: params[:id])
-    @orders = @table.orders
+
+    # for the Add Order form:
+    # instance of an unsaved Order object associated with this Table
+    @order = @table.orders.build
+
+    # for the list of Orders:
+    # instance for all the saved Orders associated with this Table
+    @orders = @table.order_list
   end
 
 end
