@@ -12,11 +12,29 @@
   </div>
   <br>
   <div class="panel panel-default">
-    <div class="panel-heading"><b>Orders</b></div>
-    <ul class="list-group">
-      <li class="list-group-item">Order #1</li>
-      <li class="list-group-item">Order #2</li>
-      <li class="list-group-item">Order #3</li>
-    </ul>
+    <div class="panel-heading">
+      <b>Orders: <%= @orders.count %></b>
+    </div>
+    <% if @orders.any? %>
+      <ol class="list-group">
+        <% @orders.each do |order| %>
+          <li class="list-group-item" id="order-<%= order.id %>">
+            <% if order.served? %>
+              <span class="label label-success">SERVED</span>
+            <% else %>
+              <span class="label label-warning">PENDING</span>
+            <% end %>
+            <br>
+            <span class="name"><%= order.name %></span><br>
+            <span class="total"><%= order.price %>, <%= order.quantity %></span><br>
+            <span class="timestamp">
+              Ordered <%= time_ago_in_words(order.created_at) %> ago
+            </span>
+          </li>
+        <% end %>
+      </ol>
+    <% else %>
+      <p>This table has no orders.</p>
+    <% end %>
   </div>
 </div>

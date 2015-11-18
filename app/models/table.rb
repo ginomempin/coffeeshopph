@@ -1,4 +1,5 @@
 class Table < ActiveRecord::Base
+  has_many :orders, dependent: :destroy
 
   after_validation :toggle_occupied
 

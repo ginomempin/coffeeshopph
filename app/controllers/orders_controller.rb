@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
 
   def index
     # TODO: make these settings configurable on the page
-    @orders = Order.order("name ASC")
+    @orders = Order.order(name: :asc)
   end
 
   def show

@@ -29,10 +29,10 @@ end
 ##### TABLES #####
 
 # guaranteed unoccupied
-name = "T1"
-max_persons = Random.new.rand(2..4)
+name = "Table 1"
+max_persons = Faker::Number.between(2, 4)
 num_persons = 0
-total_bill = Random.new.rand(100..1000)
+total_bill = Faker::Number.between(100, 1000)
 Table.create!(name:         name,
               max_persons:  max_persons,
               num_persons:  num_persons,
@@ -40,10 +40,10 @@ Table.create!(name:         name,
 
 # random occupied/unoccupied
 2.upto(10) do |n|
-  name = "T#{n}"
-  max_persons = Random.new.rand(2..4)
-  num_persons = Random.new.rand(0..max_persons)
-  total_bill = Random.new.rand(100..1000)
+  name = "Table #{n}"
+  max_persons = Faker::Number.between(2, 4)
+  num_persons = Faker::Number.between(0, max_persons)
+  total_bill = Faker::Number.between(100, 1000)
   Table.create!(name:         name,
                 max_persons:  max_persons,
                 num_persons:  num_persons,
@@ -52,26 +52,19 @@ end
 
 ##### ORDERS #####
 
-# served
-1.upto(5) do |n|
+# randomly distributed orders for all occupied tables
+tables = Table.where(occupied: true)
+1.upto(10) do |n|
   name = "Order #{n}"
-  price = Random.new.rand(30.0..500.0)
-  quantity = Random.new.rand(1..4)
-  served = true
-  Order.create!(name:     name,
-                price:    price,
-                quantity: quantity,
-                served:   served)
-end
-
-# pending
-6.upto(10) do |n|
-  name = "Order #{n}"
-  price = Random.new.rand(30.0..500.0)
-  quantity = Random.new.rand(1..4)
-  served = false
-  Order.create!(name:     name,
-                price:    price,
-                quantity: quantity,
-                served:   served)
+  price = Faker::Number.between(30.0, 500.0)
+  tables.each do |table|
+    if (Faker::Number.between(0, 1) > 0 ? true : false)
+      quantity = Faker::Number.between(1, 4)
+      served = (Faker::Number.between(0, 1) > 0 ? true : false)
+      table.orders.create!(name:     name,
+                           price:    price,
+                           quantity: quantity,
+                           served:   served)
+    end
+  end
 end

@@ -10,7 +10,10 @@
   </div>
   <br>
   <ul class="list-group">
-    <li class="list-group-item">PRICE: <%= @order.price %></li>
-    <li class="list-group-item">QUANTITY: <%= @order.quantity %></li>
+    <li class="list-group-item">
+      Table: <%= link_to @order.table.name, table_path(@order.table.id) %>
+    </li>
+    <li class="list-group-item">Price: <%= @order.price %></li>
+    <li class="list-group-item">Quantity: <%= @order.quantity %></li>
   </ul>
 </div>

@@ -72,4 +72,15 @@ class TableTest < ActiveSupport::TestCase
     assert @table.valid?
   end
 
+  test "delete associated orders when table is deleted" do
+    @table.save
+    @table.orders.create(name:     "Order 1",
+                         price:    300,
+                         quantity: 1,
+                         served:   false)
+    assert_difference 'Order.count', -1 do
+      @table.destroy
+    end
+  end
+
 end
