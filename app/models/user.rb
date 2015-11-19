@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
                 :activation_token,
                 :password_reset_token
 
+  has_secure_password
+
+  mount_uploader :picture, UserPictureUploader
+
   before_create :create_activation_digest
   before_save   :downcase_email
 
@@ -22,7 +26,7 @@ class User < ActiveRecord::Base
                        length:    { minimum: 6 },
                        allow_nil: true  # allow updating the user profile with an empty password
 
-  has_secure_password
+  validate :picture_size
 
   #-------------------
   # Object Methods
@@ -121,6 +125,13 @@ class User < ActiveRecord::Base
     def create_activation_digest
       self.activation_token = User.token
       self.activation_digest = User.digest(self.activation_token)
+    end
+
+    # Validates the size of the uploaded picture
+    def picture_size
+      if picture.size > 5.megabytes
+        errors.add(:picture, "should be less than 5Mb")
+      end
     end
 
 end

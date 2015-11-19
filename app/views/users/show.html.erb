@@ -1,5 +1,12 @@
 <% provide(:title, USERS_PAGE_TITLE) %>
 <% provide(:header, @user.name) %>
-<div class="center">
+<!-- <div class="center">
   <%= gravatar_for(@user) %>
+</div> -->
+<div class="center">
+  <% if @user.picture? %>
+    <%= image_tag @user.picture.url %>
+  <% else %>
+    No image available.
+  <% end %>
 </div>
