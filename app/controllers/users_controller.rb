@@ -63,7 +63,8 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name,
                                    :email,
                                    :password,
-                                   :password_confirmation)
+                                   :password_confirmation,
+                                   :picture)
     end
 
     def require_correct_user
