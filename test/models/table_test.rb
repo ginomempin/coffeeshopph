@@ -83,4 +83,18 @@ class TableTest < ActiveSupport::TestCase
     end
   end
 
+  # result is based on fixtures for Table 1
+  test "should retrieve list of associated orders" do
+    @orders = tables(:table1).order_list
+
+    # check that the correct associated orders are retrieved
+    assert_not_nil @orders
+    assert_equal 3, @orders.count
+
+    # check the ordering
+    assert_equal orders(:order1), @orders.find_by(name: "Order 1")
+    assert_equal orders(:order2), @orders.find_by(name: "Order 2")
+    assert_equal orders(:order3), @orders.find_by(name: "Order 3")
+  end
+
 end

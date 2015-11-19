@@ -17,6 +17,16 @@ class Table < ActiveRecord::Base
   validates :total_bill, numericality: { greater_than_or_equal_to: 0 }
 
   #-------------------
+  # Object Methods
+  #-------------------
+
+  # Returns an ordered list of the associated Order objects.
+  def order_list
+    Order.where(table_id: self.id)
+         .order(created_at: :desc)
+  end
+
+  #-------------------
   # Private Methods
   #-------------------
   private

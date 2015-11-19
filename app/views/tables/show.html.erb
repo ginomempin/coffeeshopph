@@ -1,37 +1,25 @@
 <% provide(:title, TABLES_PAGE_TITLE) %>
 <% provide(:header, @table.name) %>
-<div class="center">
+<div class="col-md-4">
   <div>
-    <% if @table.occupied? %>
-      <span class="label label-warning">OCCUPIED</span>
-    <% else %>
-      <span class="label label-success">FREE</span>
-    <% end %>
-    MAX: <span class="badge"><%= @table.max_persons %></span>
-    NOW: <span class="badge"><%= @table.num_persons %></span>
+    <%= render @table %>
   </div>
   <br>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <b>Add Order</b>
+    </div>
+    <%= render 'orders/form' %>
+  </div>
+</div>
+<div class="col-md-8">
   <div class="panel panel-default">
     <div class="panel-heading">
       <b>Orders: <%= @orders.count %></b>
     </div>
     <% if @orders.any? %>
       <ol class="list-group">
-        <% @orders.each do |order| %>
-          <li class="list-group-item" id="order-<%= order.id %>">
-            <% if order.served? %>
-              <span class="label label-success">SERVED</span>
-            <% else %>
-              <span class="label label-warning">PENDING</span>
-            <% end %>
-            <br>
-            <span class="name"><%= order.name %></span><br>
-            <span class="total"><%= order.price %>, <%= order.quantity %></span><br>
-            <span class="timestamp">
-              Ordered <%= time_ago_in_words(order.created_at) %> ago
-            </span>
-          </li>
-        <% end %>
+        <%= render @orders %>
       </ol>
     <% else %>
       <p>This table has no orders.</p>
