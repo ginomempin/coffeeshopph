@@ -24,18 +24,31 @@ class OrdersController < ApplicationController
         render 'tables/show'
       end
     else
-      flash[:danger] = "Table is invalid!"
-      redirect_to tables_path
+      handle_invalid_table
     end
   end
 
   def destroy
+    @table = Table.find_by(id: params[:table_id])
+    if @table
+      @order = @table.orders.find_by(id: params[:id])
+      @order.destroy
+      flash[:success] = "Order cancelled"
+      redirect_to request.referrer || table_path(@table.id)
+    else
+      handle_invalid_table
+    end
   end
 
   private
 
     def order_params
       params.require(:order).permit(:name, :price, :quantity, :table_id)
+    end
+
+    def handle_invalid_table
+      flash[:danger] = "Table is invalid!"
+      redirect_to tables_path
     end
 
 end
