@@ -1,12 +1,8 @@
 <% provide(:title, USERS_PAGE_TITLE) %>
 <% provide(:header, @user.name) %>
-<!-- <div class="center">
-  <%= gravatar_for(@user) %>
-</div> -->
 <div class="center">
-  <% if @user.picture? %>
-    <%= image_tag @user.picture.url %>
-  <% else %>
-    No image available.
-  <% end %>
+  <%= render partial: 'users/picture',
+             locals: { user: @user,
+                       size: "150",
+                       no_image_size: "large" } %>
 </div>

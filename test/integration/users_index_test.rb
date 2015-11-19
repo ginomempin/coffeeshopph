@@ -22,7 +22,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_select "a.list-group-item", { text: /Test Admin|User \d+/,
                                          count: USERS_DEFAULT_PER_PAGE }
     assert_select "a.list-group-item" do
-      assert_select "img.gravatar"
+      assert_select "div.no-image"
       assert_select "span.badge"
     end
     #4. check pagination
@@ -61,7 +61,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_select "a.list-actions-danger", { text: "Delete",
                                              count: 0 }
     #4. delete a user
-    
+
   end
 
 end
