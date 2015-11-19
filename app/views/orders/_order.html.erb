@@ -3,7 +3,7 @@
     <span class="label label-success">SERVED</span>
   <% else %>
     <span class="label label-warning">PENDING</span>
-    <%= link_to "Cancel Order", order_path(id: order.id, table_id: order.table.id),
+    <%= link_to "Cancel Order", order_path(id: order.id, table_id: order.table_id),
                                 method: :delete,
                                 data: { confirm: "Are you sure?" } %>
   <% end %>

@@ -11,7 +11,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @table = Table.find_by(id: params[:order][:table_id])
+    @table = Table.find_by(id: order_params[:table_id])
     if @table
       @order = @table.orders.build(order_params)
       if @order.save

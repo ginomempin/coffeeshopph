@@ -23,19 +23,39 @@ class OrdersControllerTest < ActionController::TestCase
       post :create, order: { name: @order.name,
                              price: @order.price,
                              quantity: @order.quantity,
-                             served: false,
                              table_id: @order.table }
     end
     assert_not flash.empty?
     assert_redirected_to login_url
   end
 
+  test "should redirect create when table is invalid" do
+    check_log_in_as(users(:admin1))
+    assert_no_difference 'Order.count' do
+      post :create, order: { name: @order.name,
+                             price: @order.price,
+                             quantity: @order.quantity,
+                             table_id: 0 }
+    end
+    assert_not flash.empty?
+    assert_redirected_to tables_url
+  end
+
   test "should redirect delete when not logged in" do
     assert_no_difference 'Order.count' do
-      delete :destroy, id: @order.id
+      delete :destroy, id: @order.id, table_id: @order.table.id
     end
     assert_not flash.empty?
     assert_redirected_to login_url
+  end
+
+  test "should redirect delete when table is invalid" do
+    check_log_in_as(users(:admin1))
+    assert_no_difference 'Order.count' do
+      delete :destroy, id: @order.id, table_id: 0
+    end
+    assert_not flash.empty?
+    assert_redirected_to tables_url
   end
 
 end
