@@ -65,6 +65,10 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_template "users/show"
     assert check_logged_in?
+
+    # check that the default user info page has no picture
+    assert_not assigns(:user).picture?
+    assert_select "div.no-image"
   end
 
 end
