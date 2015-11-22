@@ -1,0 +1,28 @@
+<% provide(:title, TABLES_PAGE_TITLE) %>
+<% provide(:header, @table.name) %>
+<div class="col-md-4">
+  <div>
+    <%= render @table %>
+  </div>
+  <br>
+  <div class="panel panel-default" id="add-order">
+    <div class="panel-heading">
+      <b>Add Order</b>
+    </div>
+    <%= render 'orders/form' %>
+  </div>
+</div>
+<div class="col-md-8">
+  <div class="panel panel-default" id="order-list">
+    <div class="panel-heading">
+      <b>Orders: <%= @orders.count %></b>
+    </div>
+    <% if @orders.any? %>
+      <ol class="list-group">
+        <%= render @orders %>
+      </ol>
+    <% else %>
+      <p>This table has no orders.</p>
+    <% end %>
+  </div>
+</div>

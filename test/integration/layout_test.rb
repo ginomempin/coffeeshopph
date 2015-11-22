@@ -14,7 +14,9 @@ class LayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", about_path, count: 1
     assert_select "a[href=?]", help_path, count: 1
     assert_select "a[href=?]", login_path, count: 1
-    # body links
+    # body/common links
+    assert_select "a[href=?]", tables_path, count: 1
+    assert_select "a[href=?]", orders_path, count: 1
     # footer links
     assert_select "a[href=?]", contact_path, count: 1
   end
@@ -30,7 +32,9 @@ class LayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", edit_user_path(@user1), count: 1
     assert_select "a[href=?]", users_path, count: 1
     assert_select "a[href=?]", logout_path, count: 1
-    # body links
+    # body/common links
+    assert_select "a[href=?]", tables_path, count: 2
+    assert_select "a[href=?]", orders_path, count: 2
     # footer links
     assert_select "a[href=?]", contact_path, count: 1
   end

@@ -25,6 +25,12 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to login_url
   end
 
+  test "should redirect show when not logged in" do
+    get :show, id: @user1.id
+    assert_not flash.empty?
+    assert_redirected_to login_url
+  end
+
   test "should redirect edit when not logged in" do
     get :edit, id: @user1.id
     assert_not flash.empty?

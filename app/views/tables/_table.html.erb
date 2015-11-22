@@ -1,0 +1,11 @@
+<div class="panel panel-default" id="table-details">
+  <span>MAX: </span>
+  <span class="badge"><%= table.max_persons %></span>
+  <span>NOW: </span>
+  <span class="badge"><%= table.num_persons %></span>
+  <% if table.occupied? %>
+    <span class="label label-warning">OCCUPIED</span>
+  <% else %>
+    <span class="label label-success">FREE</span>
+  <% end %>
+</div>

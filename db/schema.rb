@@ -11,7 +11,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151024080130) do
+ActiveRecord::Schema.define(version: 20151119091137) do
+
+  create_table "orders", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "price",      precision: 7, scale: 2, default: 0.0,   null: false
+    t.integer  "quantity",                           default: 0,     null: false
+    t.boolean  "served",                             default: false
+    t.integer  "table_id"
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "orders", ["table_id", "created_at"], name: "index_orders_on_table_id_and_created_at"
+  add_index "orders", ["table_id"], name: "index_orders_on_table_id"
+
+  create_table "promos", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "code",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "promos", ["code"], name: "index_promos_on_code", unique: true
+
+  create_table "tables", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "max_persons", default: 0,     null: false
+    t.integer  "num_persons", default: 0,     null: false
+    t.boolean  "occupied",    default: false
+    t.integer  "total_bill",  default: 0,     null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -26,6 +58,7 @@ ActiveRecord::Schema.define(version: 20151024080130) do
     t.datetime "activated_at"
     t.string   "password_reset_digest"
     t.datetime "password_reset_sent_at"
+    t.string   "picture"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

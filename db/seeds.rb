@@ -25,3 +25,46 @@ User.create!(name:                  "Gino Mempin",
                activated:             true,
                activated_at:          Time.zone.now)
 end
+
+##### TABLES #####
+
+# guaranteed unoccupied
+name = "Table 1"
+max_persons = Faker::Number.between(2, 4)
+num_persons = 0
+total_bill = Faker::Number.between(100, 1000)
+Table.create!(name:         name,
+              max_persons:  max_persons,
+              num_persons:  num_persons,
+              total_bill:   total_bill)
+
+# random occupied/unoccupied
+2.upto(10) do |n|
+  name = "Table #{n}"
+  max_persons = Faker::Number.between(2, 4)
+  num_persons = Faker::Number.between(0, max_persons)
+  total_bill = Faker::Number.between(100, 1000)
+  Table.create!(name:         name,
+                max_persons:  max_persons,
+                num_persons:  num_persons,
+                total_bill:   total_bill)
+end
+
+##### ORDERS #####
+
+# randomly distributed orders for all occupied tables
+tables = Table.where(occupied: true)
+1.upto(10) do |n|
+  name = "Order #{n}"
+  price = Faker::Number.between(30.0, 500.0)
+  tables.each do |table|
+    if (Faker::Number.between(0, 1) > 0 ? true : false)
+      quantity = Faker::Number.between(1, 4)
+      served = (Faker::Number.between(0, 1) > 0 ? true : false)
+      table.orders.create!(name:     name,
+                           price:    price,
+                           quantity: quantity,
+                           served:   served)
+    end
+  end
+end

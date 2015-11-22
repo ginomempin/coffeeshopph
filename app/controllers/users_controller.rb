@@ -5,12 +5,10 @@ class UsersController < ApplicationController
 
   def index
     # TODO: make these settings configurable on the page
-    user_order = USERS_DEFAULT_ORDER_BY
-    user_count = USERS_DEFAULT_PER_PAGE
     @users = User.where(activated: true)
-                 .order(user_order)
+                 .order(name: :asc)
                  .paginate(page: params[:page],
-                           per_page: user_count)
+                           per_page: USERS_DEFAULT_PER_PAGE)
   end
 
   def show
@@ -65,18 +63,8 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name,
                                    :email,
                                    :password,
-                                   :password_confirmation)
-    end
-
-    def require_logged_in_user
-      unless logged_in?
-        # remember the URL that the user is trying to access
-        # so the user can be redirected back to it after a
-        # successful login
-        store_location
-        flash[:danger] = "Please log in to access the page."
-        redirect_to login_url
-      end
+                                   :password_confirmation,
+                                   :picture)
     end
 
     def require_correct_user

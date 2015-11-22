@@ -1,0 +1,16 @@
+<li class="list-group-item" id="order-<%= order.id %>">
+  <% if order.served? %>
+    <span class="label label-success">SERVED</span>
+  <% else %>
+    <span class="label label-warning">PENDING</span>
+    <%= link_to "Cancel Order", order_path(id: order.id, table_id: order.table_id),
+                                method: :delete,
+                                data: { confirm: "Are you sure?" } %>
+  <% end %>
+  <br>
+  <span class="name"><%= order.name %></span><br>
+  <span class="total"><%= order.price %>, <%= order.quantity %></span><br>
+  <span class="timestamp">
+    Ordered <%= time_ago_in_words(order.created_at, include_seconds: true) %> ago
+  </span>
+</li>

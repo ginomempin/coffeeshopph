@@ -6,7 +6,10 @@
 <div class="users list-group">
   <% @users.each do |user| %>
     <%= link_to user_path(user), { class: "list-group-item" } do %>
-      <%= gravatar_for(user, size: 50) %>
+      <%= render partial: 'users/picture',
+                 locals: { user: user,
+                           size: "80",
+                           no_image_size: "small" } %>
       <span><%= user.name %></span>
       <% if user.admin? %>
         <span class="badge">ADMIN</span>

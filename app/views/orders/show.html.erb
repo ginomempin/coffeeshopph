@@ -1,0 +1,19 @@
+<% provide(:title, ORDERS_PAGE_TITLE) %>
+<% provide(:header, @order.name) %>
+<div class="center">
+  <div>
+    <% if @order.served? %>
+      <span class="label label-success">SERVED</span>
+    <% else %>
+      <span class="label label-warning">PENDING</span>
+    <% end %>
+  </div>
+  <br>
+  <ul class="list-group">
+    <li class="list-group-item">
+      Table: <%= link_to @order.table.name, table_path(@order.table.id) %>
+    </li>
+    <li class="list-group-item">Price: <%= @order.price %></li>
+    <li class="list-group-item">Quantity: <%= @order.quantity %></li>
+  </ul>
+</div>

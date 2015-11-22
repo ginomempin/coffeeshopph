@@ -1,0 +1,15 @@
+<% provide(:title, ORDERS_PAGE_TITLE) %>
+<% provide(:header, ORDERS_PAGE_HEADER) %>
+
+<div class="orders list-group">
+  <% @orders.each do |order| %>
+    <%= link_to order_path(order.id), { class: "list-group-item" } do %>
+      <span><%= order.name %></span>
+      <% if order.served? %>
+        <span class="badge">SERVED</span>
+      <% else %>
+        <span class="badge">PENDING</span>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

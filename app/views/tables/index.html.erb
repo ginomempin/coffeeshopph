@@ -1,0 +1,15 @@
+<% provide(:title, TABLES_PAGE_TITLE) %>
+<% provide(:header, TABLES_PAGE_HEADER) %>
+
+<div class="tables list-group">
+  <% @tables.each do |table| %>
+    <%= link_to table_path(table.id), { class: "list-group-item" } do %>
+      <span><%= table.name %></span>
+      <% if table.occupied? %>
+        <span class="badge">OCCUPIED</span>
+      <% else %>
+        <span class="badge">FREE</span>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

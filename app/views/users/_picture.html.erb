@@ -1,0 +1,10 @@
+<% if user.picture? %>
+  <%= image_tag user.picture.url,
+                id: "user-image",
+                size: "#{size}",
+                alt: "#{user.name}'s Picture" %>
+<% else %>
+  <div class="no-image no-image-<%= no_image_size %>">
+    No available image
+  </div>
+<% end %>

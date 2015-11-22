@@ -22,7 +22,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_select "a.list-group-item", { text: /Test Admin|User \d+/,
                                          count: USERS_DEFAULT_PER_PAGE }
     assert_select "a.list-group-item" do
-      assert_select "img.gravatar"
+      assert_select "div.no-image"
       assert_select "span.badge"
     end
     #4. check pagination
@@ -33,6 +33,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
       assert_select "div.pagination", { count: 2 }
       expected_users = (total_users > USERS_DEFAULT_PER_PAGE) ? USERS_DEFAULT_PER_PAGE : total_users
       assert_select "a.list-group-item", { count: expected_users }
+      assert_select "div.no-image", { count: expected_users }
       total_users -= USERS_DEFAULT_PER_PAGE
     end
   end
@@ -61,7 +62,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_select "a.list-actions-danger", { text: "Delete",
                                              count: 0 }
     #4. delete a user
-    
+
   end
 
 end

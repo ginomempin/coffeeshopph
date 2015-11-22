@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# occupied
+<% 1.upto(5) do |n| %>
+table<%= n %>:
+  name:             <%= "Table #{n}" %>
+  max_persons:      4
+  num_persons:      2
+  occupied:         true
+  total_bill:       500
+<% end %>
+
+# unoccupied
+<% 6.upto(10) do |n| %>
+table<%= n %>:
+  name:             <%= "Table #{n}" %>
+  max_persons:      4
+  num_persons:      0
+  occupied:         false
+  total_bill:       500
+<% end %>
