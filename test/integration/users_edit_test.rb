@@ -58,13 +58,19 @@ class UsersEditTest < ActionDispatch::IntegrationTest
                                       password_confirmation: "",
                                       picture: picture }
     end
-    #5. check that the image upload was successful
+    #6. check that the User Info page now displays a user picture
     assert_not flash.empty?
     assert_redirected_to user_path(@user)
     follow_redirect!
-    user = assigns(:user)
-    assert user.picture?
+    assert assigns(:user).picture?
     assert_select "img#user-image"
+
+    #7. check that the Users List page also displays the user picture
+    #note: it is assumed here that the updated user is on the first page
+    get users_path
+    assert_select "a[href=?]", user_path(@user) do
+      assert_select "img#user-image"
+    end
   end
 
 end

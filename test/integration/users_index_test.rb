@@ -33,6 +33,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
       assert_select "div.pagination", { count: 2 }
       expected_users = (total_users > USERS_DEFAULT_PER_PAGE) ? USERS_DEFAULT_PER_PAGE : total_users
       assert_select "a.list-group-item", { count: expected_users }
+      assert_select "div.no-image", { count: expected_users }
       total_users -= USERS_DEFAULT_PER_PAGE
     end
   end
