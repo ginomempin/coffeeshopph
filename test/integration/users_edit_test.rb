@@ -23,19 +23,48 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     assert_template "users/edit"
     new_name = "Test Admin 1 EDITED"
     new_email = "admin1_edited@test.com"
-    # blank passwords should be OK since users
-    #  shouldn't be required to also update their
-    #  passwords when updating their profile
-    patch user_path(@user), user: { name:  new_name,
-                                    email: new_email,
-                                    password: "",
-                                    password_confirmation: "" }
+    assert_no_difference "User.count" do
+      # blank passwords should be OK since users
+      #  shouldn't be required to also update their
+      #  passwords when updating their profile
+      patch user_path(@user), user: { name:  new_name,
+                                      email: new_email,
+                                      password: "",
+                                      password_confirmation: "" }
+    end
     assert_not flash.empty?
     assert_redirected_to user_path(@user)
     # fetch the updated user from the database
     @user.reload
     assert_equal @user.name, new_name
     assert_equal @user.email, new_email
+  end
+
+  test "successful edit of profile picture" do
+    #1. login
+    check_log_in_as(@user)
+    #2. access the Edit Profile page
+    get edit_user_path(@user)
+    assert_template "users/edit"
+    #3. check for an image file upload field
+    assert_select "input[type=file]"
+    #4. upload a test profile picture
+    picture = fixture_file_upload("test/fixtures/test_user_picture.jpg", "image/png")
+    #5. save changes
+    assert_no_difference "User.count" do
+      patch user_path(@user), user: { name: @user.name,
+                                      email: @user.email,
+                                      password: "",
+                                      password_confirmation: "",
+                                      picture: picture }
+    end
+    #5. check that the image upload was successful
+    assert_not flash.empty?
+    assert_redirected_to user_path(@user)
+    follow_redirect!
+    user = assigns(:user)
+    assert user.picture?
+    assert_select "img#user-image"
   end
 
 end
