@@ -1,5 +1,9 @@
 class Table < ActiveRecord::Base
   has_many :orders, dependent: :destroy
+  has_one :customer, class_name:  "Customer",
+                     foreign_key: "table_id",
+                     dependent:   :destroy
+  has_one :server, through: :customer
 
   after_validation :toggle_occupied
 
