@@ -174,8 +174,18 @@ a {
   }
 }
 
+.customers.list-group {
+  .list-group-item:hover {
+    background-color: $blue-green;
+  }
+}
+
 .panel.panel-default#table-details {
   padding: 10px;
+}
+
+.panel.panel-default#customer-list {
+  margin-top: 20px;
 }
 
 /* --------------------------------- */

@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     unless @user.activated?
       redirect_to root_url and return
     end
+    @tables = @user.tables
   end
 
   def new

@@ -5,6 +5,10 @@
   <span class="badge"><%= table.num_persons %></span>
   <% if table.occupied? %>
     <span class="label label-warning">OCCUPIED</span>
+    <br>
+    <div>
+      SERVER: <%= link_to table.server.name, user_path(table.server) %>
+    </div>
   <% else %>
     <span class="label label-success">FREE</span>
   <% end %>

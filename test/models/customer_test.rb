@@ -21,36 +21,34 @@ class CustomerTest < ActiveSupport::TestCase
   end
 
   test "servers can serve and clear a table" do
+    # choose a server and a table that is not in fixtures
     server1 = users(:user1)
-    table1 = tables(:table1)
+    table6 = tables(:table6)
 
-    assert_not server1.serving?(table1)
+    assert_not server1.serving?(table6)
     assert_equal 0, server1.customers.count
-    assert_nil table1.server
+    assert_nil table6.server
 
-    server1.serve(table1)
-    assert server1.serving?(table1)
+    server1.serve(table6)
+    assert server1.serving?(table6)
     assert_equal 1, server1.customers.count
-    assert_not_nil table1.reload.server
+    assert_not_nil table6.reload.server
 
-    server1.clear(table1)
-    assert_not server1.serving?(table1)
+    server1.clear(table6)
+    assert_not server1.serving?(table6)
     assert_equal 0, server1.customers.count
-    assert_nil table1.reload.server
+    assert_nil table6.reload.server
   end
 
   test "servers are uniquely assigned to a table" do
-    server1 = users(:user1)
-    server2 = users(:user2)
-    table1 = tables(:table1)
-    table2 = tables(:table2)
+    server3 = users(:user3)
+    server5 = users(:user5)
+    table3 = tables(:table3)
+    table5 = tables(:table5)
 
-    server1.serve(table1)
-    server2.serve(table2)
-
-    assert_not_equal table1.reload.server, table2.reload.server
-    assert table1.server, server1
-    assert table2.server, server2
+    assert_not_equal table3.server, table5.server
+    assert table3.server, server3
+    assert table5.server, server5
   end
 
 end

@@ -5,10 +5,10 @@ class TablesInfoTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:admin1)
 
-    # occupied and has 3 orders
+    # occupied, has a server, has 3 orders
     @table1 = tables(:table1)
 
-    # unoccupied
+    # unoccupied, no server, no orders
     @table6 = tables(:table6)
   end
 
@@ -49,6 +49,18 @@ class TablesInfoTest < ActionDispatch::IntegrationTest
     #3. access Table Info page for unoccupied table
     get table_path(@table6.id)
     assert_select "span.label", { text: "FREE" }
+  end
+
+  test "should show if table's server if occupied" do
+    #1. login
+    check_log_in_as(@user)
+    #2. access Table Info page for occupied table
+    get table_path(@table1.id)
+    assert_select 'div>a', { text: @table1.server.name }
+    assert_select 'div>a[href=?]', user_path(@table1.server)
+    #3. access Table Info page for unoccupied table
+    get table_path(@table6.id)
+    assert_select 'div', { text: "SERVER:", count: 0 }
   end
 
   test "should show a list of orders for an occupied table" do
