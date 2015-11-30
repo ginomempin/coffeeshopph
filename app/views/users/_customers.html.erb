@@ -1,0 +1,13 @@
+<div class="col-md-6 col-md-offset-3">
+  <div class="panel panel-default" id="customer-list">
+    <div class="panel-heading">Customers: <%= @tables.count %></div>
+      <% if @tables.count > 0 %>
+        <div class="customers list-group">
+          <% @tables.each do |t| %>
+            <%= link_to t.name, table_path(t.id), { class: "list-group-item" } %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

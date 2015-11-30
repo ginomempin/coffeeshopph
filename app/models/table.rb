@@ -1,5 +1,9 @@
 class Table < ActiveRecord::Base
   has_many :orders, dependent: :destroy
+  has_one :customer, class_name:  "Customer",
+                     foreign_key: "table_id",
+                     dependent:   :destroy
+  has_one :server, through: :customer
 
   after_validation :toggle_occupied
 
@@ -24,6 +28,14 @@ class Table < ActiveRecord::Base
   def order_list
     Order.where(table_id: self.id)
          .order(created_at: :desc)
+  end
+
+  # Destroys the Order objects associated with this table.
+  # TODO: move to a before_destroy callback of Table?
+  def clear_orders
+    self.orders.each do |order|
+      order.destroy
+    end
   end
 
   #-------------------
