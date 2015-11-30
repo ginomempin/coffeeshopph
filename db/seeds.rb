@@ -68,3 +68,32 @@ tables = Table.where(occupied: true)
     end
   end
 end
+
+##### CUSTOMERS #####
+
+# assign a server to Table 1-4
+server1 = User.find(1)
+1.upto(4) do |n|
+  table = Table.find(n)
+  if table.occupied?
+    server1.serve(table)
+  end
+end
+
+# assign a server to Table 5-8
+server2 = User.find(5)
+5.upto(8) do |n|
+  table = Table.find(n)
+  if table.occupied?
+    server2.serve(table)
+  end
+end
+
+# assign a server to Table 9-10
+server3 = User.find(9)
+9.upto(10) do |n|
+  table = Table.find(n)
+  if table.occupied?
+    server3.serve(table)
+  end
+end

@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  has_many :customers, class_name:  "Customer",
+                       foreign_key: "server_id",
+                       dependent:   :destroy
+  has_many :tables, through: :customers
 
   # These attributes are analogous to the virtual 'password' and
   #  'password_confirmation' attributes automatically created by
@@ -87,6 +91,21 @@ class User < ActiveRecord::Base
   def password_reset_expired?
     # TODO: the '2' hour expiration should be defined in an app constant
     self.password_reset_sent_at < 2.hours.ago
+  end
+
+  # Assigns the user to be the server of the specified table.
+  def serve(table)
+    self.customers.create(table_id: table.id)
+  end
+
+  # Checks if the user is serving the specified table.
+  def serving?(table)
+    self.tables.include?(table)
+  end
+
+  # Removes the user from being the server of the specified table.
+  def clear(table)
+    self.customers.find_by(table_id: table.id).destroy
   end
 
   #-------------------
