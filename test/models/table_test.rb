@@ -97,4 +97,16 @@ class TableTest < ActiveSupport::TestCase
     assert_equal orders(:order3), @orders.find_by(name: "Order 3")
   end
 
+  test "should clear destroy orders" do
+    table2 = tables(:table2)
+    assert_not table2.orders.empty?
+
+    order_count = table2.orders.count
+    assert_difference 'Order.count', (-1 * order_count) do
+      table2.clear_orders
+    end
+
+    assert table2.reload.orders.empty?
+  end
+
 end

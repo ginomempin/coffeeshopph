@@ -30,6 +30,14 @@ class Table < ActiveRecord::Base
          .order(created_at: :desc)
   end
 
+  # Destroys the Order objects associated with this table.
+  # TODO: move to a before_destroy callback of Table?
+  def clear_orders
+    self.orders.each do |order|
+      order.destroy
+    end
+  end
+
   #-------------------
   # Private Methods
   #-------------------

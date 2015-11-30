@@ -29,4 +29,7 @@ Rails.application.routes.draw do
   # Orders
   resources :orders,              only: [:index, :show, :create, :destroy]
 
+  # Customers
+  resources :customers,           only: [:create, :destroy]
+
 end
