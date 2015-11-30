@@ -51,7 +51,7 @@ class TablesInfoTest < ActionDispatch::IntegrationTest
     assert_select "span.label", { text: "FREE" }
   end
 
-  test "should show if table's server if occupied" do
+  test "should show the table's server if occupied" do
     #1. login
     check_log_in_as(@user)
     #2. access Table Info page for occupied table
@@ -71,6 +71,7 @@ class TablesInfoTest < ActionDispatch::IntegrationTest
     #3. check the order count
     assert_select "div.panel-heading", { text: "Orders: 3" }
     #4. check the order list
+    assert_not @table1.orders.empty?
     @table1.orders.each do |order|
       assert_select "span.label", { text: (order.served ? "SERVED" : "PENDING") }
       assert_select "li.list-group-item>span.name",

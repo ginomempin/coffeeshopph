@@ -30,7 +30,8 @@ class UsersInfoTest < ActionDispatch::IntegrationTest
     get user_path(user)
     #3. check the list of customers
     assert_select 'div#customer-list>div.panel-heading', { text: "Customers: 3"}
-    @user.tables.each do |t|
+    assert_not user.tables.empty?
+    user.tables.each do |t|
       assert_select 'div.list-group>a.list-group-item[href=?]',
                     table_path(t),
                     { text: t.name }
