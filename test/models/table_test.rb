@@ -102,7 +102,7 @@ class TableTest < ActiveSupport::TestCase
     assert_not table2.orders.empty?
 
     order_count = table2.orders.count
-    assert_difference 'Order.count', (-1 * order_count) do
+    assert_difference 'Order.count', -2 do
       table2.clear_orders
     end
 

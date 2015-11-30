@@ -139,4 +139,53 @@ class TablesInfoTest < ActionDispatch::IntegrationTest
     assert_redirected_to table_path(@table1.id)
   end
 
+  test "should clear and occupy a table" do
+    # fixture data
+    customer2 = customers(:customer2)
+    user3 = users(:user3)
+    table2 = tables(:table2)
+    assert user3.serving?(table2)
+
+    #1. access the Table Info page
+    check_log_in_as(user3)
+    get table_path(table2.id)
+    assert_template 'tables/show'
+    assert_select "input[type=submit][value=Clear]"
+    assert_select "span.label", { text: "OCCUPIED" }
+    assert_select "div.panel-heading", { text: "Orders: 2" }
+    #2. clear the table
+    assert_difference 'Customer.count', -1 do
+      delete customer_path(customer2.id)
+    end
+    #3. check redirection back to the Table Info Page
+    assert_redirected_to table_path(table2.id)
+    follow_redirect!
+    #4. check that the page is now updated
+    assert_select "input[type=submit][value=Occupy]"
+    assert_select "span.label", { text: "FREE" }
+    assert_select "div.panel-heading", { text: "Orders: 0" }
+    #5. check the User model
+    user3.reload
+    assert_not user3.serving?(table2)
+    #6. check the Table model
+    table2.reload
+    assert_nil table2.server
+    assert table2.orders.empty?
+    #7. occupy the table
+    assert_difference 'Customer.count', 1 do
+      post customers_path, { server_id: user3.id,
+                             table_id: table2.id }
+    end
+    #8. check redirection back to the Table Info Page
+    assert_redirected_to table_path(table2.id)
+    follow_redirect!
+    #9. check that the page is now updated
+    assert_select "input[type=submit][value=Clear]"
+    assert_select "span.label", { text: "OCCUPIED" }
+    assert_select "div.panel-heading", { text: "Orders: 0" }
+    #10. check the User model
+    user3.reload
+    assert user3.serving?(table2)
+  end
+
 end
