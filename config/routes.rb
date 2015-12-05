@@ -32,4 +32,14 @@ Rails.application.routes.draw do
   # Customers
   resources :customers,           only: [:create, :destroy]
 
+  # API
+  # These resource endpoints are automatically mapped by Rails
+  # to a directory under app/controllers with the same name
+  # as the defined namespace.
+  namespace :api, defaults:    { format: :json },
+                  constraints: { subdomain: 'api' },
+                  path:        '/' do
+
+  end
+
 end
