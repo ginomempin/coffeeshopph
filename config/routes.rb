@@ -1,6 +1,28 @@
 Rails.application.routes.draw do
 
-  root      'static_pages#home'
+  ###########
+  # API     #
+  ###########
+  # (1) These resource endpoints are automatically mapped by Rails
+  #     to a directory under app/controllers with the same name
+  #     as the defined namespace and version scope.
+  #     Ex. api/v1/tables_controller
+  #
+  # (2) It is important that API routes are listed first so that
+  #     they are considered first before the HTML routes.
+
+  namespace :api, defaults:    { format: :json },
+                  constraints: { subdomain: 'api' },
+                  path:        '/' do
+    scope module: :v1,
+          constraints: Constraints::API.new(version: 1, default: true) do
+      resources :tables, only: [:show]
+    end
+  end
+
+  ###########
+  # HTML    #
+  ###########
 
   # Static Pages
   get       '/home'     => 'static_pages#home'
@@ -32,17 +54,10 @@ Rails.application.routes.draw do
   # Customers
   resources :customers,           only: [:create, :destroy]
 
-  # API
-  # These resource endpoints are automatically mapped by Rails
-  # to a directory under app/controllers with the same name
-  # as the defined namespace.
-  namespace :api, defaults:    { format: :json },
-                  constraints: { subdomain: 'api' },
-                  path:        '/' do
-    scope module: :v1,
-          constraints: Constraints::Api.new(version: 1, default: true) do
-      resources :tables, only: [:show]
-    end
-  end
+  ###########
+  # DEFAULT #
+  ###########
+
+  root      'static_pages#home'
 
 end

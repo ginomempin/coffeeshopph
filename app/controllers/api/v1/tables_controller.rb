@@ -1,4 +1,4 @@
-class Api::V1::TablesController < ApplicationController
+class API::V1::TablesController < ApplicationController
   respond_to :json
 
   def show
