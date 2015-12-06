@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class APIConstraintsTest < ActionController::TestCase
+class Constraints::APITest < ActionController::TestCase
 
   def setup
     @api_v1 = Constraints::API.new(version: 1)
