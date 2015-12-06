@@ -7,7 +7,7 @@ class Constraints::Api
 
   def matches?(request)
     @default || request.headers['Accept']
-                       .include?("application/vnd.coffeeshop.v#{@version}")
+                       .include?("application/vnd.coffeeshopph.v#{@version}")
   end
 
 end
