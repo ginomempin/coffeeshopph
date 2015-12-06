@@ -6,10 +6,13 @@ Rails.application.routes.draw do
   # (1) These resource endpoints are automatically mapped by Rails
   #     to a directory under app/controllers with the same name
   #     as the defined namespace and version scope.
-  #     Ex. api/v1/tables_controller
+  #     Ex. <namespace>/<version>/tables_controller
   #
   # (2) It is important that API routes are listed first so that
-  #     they are considered first before the HTML routes.
+  #     they will be prioritized before the HTML routes.
+  #
+  # (3) To allow testing on localhost (development environment),
+  #     use '<namespace>.lvh.me:<port>/<resource>'
 
   namespace :api, defaults:    { format: :json },
                   constraints: { subdomain: 'api' },
