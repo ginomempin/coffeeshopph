@@ -1,4 +1,4 @@
-class Constraints::API
+class Constraints::Api
 
   def initialize(options)
     @version = options[:version]

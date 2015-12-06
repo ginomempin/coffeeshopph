@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class Constraints::APITest < ActionController::TestCase
+class Constraints::ApiTest < ActionController::TestCase
 
   def setup
-    @api_v1 = Constraints::API.new(version: 1)
-    @api_v2 = Constraints::API.new(version: 2, default: true)
+    @api_v1 = Constraints::Api.new(version: 1)
+    @api_v2 = Constraints::Api.new(version: 2, default: true)
   end
 
   test "should match when header has correct version" do

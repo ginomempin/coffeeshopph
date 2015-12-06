@@ -38,6 +38,10 @@ class ActiveSupport::TestCase
     end
   end
 
+  def parse_json_from(response)
+    JSON.parse(response.body, symbolize_names: true)
+  end
+
   private
 
     # Returns true if called inside an integration test.
