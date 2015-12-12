@@ -10,8 +10,9 @@ class API::V1::TablesControllerTest < ActionController::TestCase
   test "should return table as json" do
     get :show, id: @table.id, format: :json
 
-    assert_response :success
+    assert_response 200
     json = parse_json_from(@response)
+    assert_not_nil json
 
     assert_equal @table.name,        json[:name]
     assert_equal @table.max_persons, json[:max_persons]

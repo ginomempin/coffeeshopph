@@ -42,6 +42,12 @@ class ActiveSupport::TestCase
     JSON.parse(response.body, symbolize_names: true)
   end
 
+  # Checks if an array of error messages contains the
+  # specified message. Searching is case-insensitive.
+  def has_error_message(errors, message)
+    errors.any? { |error| error.downcase.include?(message.downcase) }
+  end
+
   private
 
     # Returns true if called inside an integration test.

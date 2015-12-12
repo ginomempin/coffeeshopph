@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     scope module: :v1,
           constraints: Constraints::API.new(version: 1, default: true) do
       resources :tables, only: [:show]
+      resources :orders, only: [:create]
     end
   end
 
