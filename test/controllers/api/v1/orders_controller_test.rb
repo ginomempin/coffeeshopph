@@ -4,6 +4,7 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
 
   def setup
     @request.headers['Accept'] = 'application/vnd.coffeeshop.v1'
+    @request.headers['Content-Type'] = 'application/json'
     @table = tables(:table1)
     @order = { name: "New Order",
                price: 123.45,

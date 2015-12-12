@@ -4,6 +4,7 @@ class API::V1::TablesControllerTest < ActionController::TestCase
 
   def setup
     @request.headers['Accept'] = 'application/vnd.coffeeshop.v1'
+    @request.headers['Content-Type'] = 'application/json'
     @table = tables(:table1)
   end
 
