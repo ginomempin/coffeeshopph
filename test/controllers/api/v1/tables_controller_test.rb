@@ -21,4 +21,16 @@ class API::V1::TablesControllerTest < ActionController::TestCase
     assert_equal @table.total_bill,  json[:total_bill]
   end
 
+  test "should return error as json when table is invalid" do
+    get :show, id: 0, format: :json
+
+    assert_response 422
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert json.key?(:errors)
+    assert_not json[:errors].empty?
+    assert has_error_message(json[:errors], "table is invalid")
+  end
+
 end
