@@ -14,4 +14,13 @@ class Order < ActiveRecord::Base
 
   validates :table_id, presence: true
 
+  #-------------------
+  # Object Methods
+  #-------------------
+
+  # Override as_json to limit the fields returned by the Orders API.
+  def as_json(options={})
+    super( except: [:id, :created_at, :updated_at] )
+  end
+
 end

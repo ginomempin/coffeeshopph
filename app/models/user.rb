@@ -36,6 +36,16 @@ class User < ActiveRecord::Base
   # Object Methods
   #-------------------
 
+  # Override as_json to limit the fields returned by the Users API.
+  def as_json(options={})
+    super( only: [:name, :email],
+           include:
+           {
+             tables: { only: [:name] }
+           }
+         )
+  end
+
   # Generates a new remember token for the user and saves it
   #  to the database as a hashed digest. This is analogous to
   #  password_digest saved by the 'has_secure_password' method.

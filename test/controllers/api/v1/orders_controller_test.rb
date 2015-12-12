@@ -7,8 +7,9 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     @request.headers['Content-Type'] = 'application/json'
     @table = tables(:table1)
     @order = { name: "New Order",
-               price: 123.45,
+               price: "123.45",
                quantity: 2,
+               served: false,
                table_id: @table.id }
   end
 
@@ -22,15 +23,17 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     json = parse_json_from(@response)
     assert_not_nil json
 
-    assert_equal "New Order", json[:name]
-    assert_equal "123.45",    json[:price]
-    assert_equal 2,           json[:quantity]
-    assert_equal @table.id,   json[:table_id]
+    assert_equal 5, json.keys.count
+    assert_equal @order[:name],     json[:name]
+    assert_equal @order[:price],    json[:price]
+    assert_equal @order[:quantity], json[:quantity]
+    assert_equal @order[:served],   json[:served]
+    assert_equal @table.id,         json[:table_id]
   end
 
   test "should not create an order without a table and return error" do
     assert_no_difference 'Order.count' do
-      @order[:table_id] = 0
+      @order[:table_id] = "0"
       post :create, { order: @order },
                     { format: :json }
     end
@@ -39,15 +42,15 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     json = parse_json_from(@response)
     assert_not_nil json
 
+    assert_equal 1, json.keys.count
     assert json.key?(:errors)
-    assert_not json[:errors].empty?
     assert has_error_message(json[:errors], "table is invalid")
   end
 
   test "should not create an order with invalid fields and return error" do
     assert_no_difference 'Order.count' do
       @order[:name] = ""
-      @order[:quantity] = 1.5
+      @order[:quantity] = "1.5"
       post :create, { order: @order },
                     { format: :json }
     end
@@ -56,8 +59,8 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     json = parse_json_from(@response)
     assert_not_nil json
 
+    assert_equal 1, json.keys.count
     assert json.key?(:errors)
-    assert_not json[:errors].empty?
     assert has_error_message(json[:errors], "name can't be blank")
     assert has_error_message(json[:errors], "quantity must be an integer")
   end

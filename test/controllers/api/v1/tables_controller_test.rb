@@ -15,11 +15,18 @@ class API::V1::TablesControllerTest < ActionController::TestCase
     json = parse_json_from(@response)
     assert_not_nil json
 
-    assert_equal @table.name,        json[:name]
-    assert_equal @table.max_persons, json[:max_persons]
-    assert_equal @table.num_persons, json[:num_persons]
-    assert_equal @table.occupied,    json[:occupied]
-    assert_equal @table.total_bill,  json[:total_bill]
+    assert_equal 7, json.keys.count
+    assert_equal @table.name,           json[:name]
+    assert_equal @table.max_persons,    json[:max_persons]
+    assert_equal @table.num_persons,    json[:num_persons]
+    assert_equal @table.occupied,       json[:occupied]
+    assert_equal @table.total_bill,     json[:total_bill]
+    assert_equal @table.orders.count,   json[:orders].count
+    json[:orders].each do |order|
+      assert_equal 3, order.keys.count
+    end
+    assert_equal @table.server.name,    json[:server][:name]
+    assert_equal 1,                     json[:server].keys.count
   end
 
   test "should return error as json when table is invalid" do
@@ -29,8 +36,8 @@ class API::V1::TablesControllerTest < ActionController::TestCase
     json = parse_json_from(@response)
     assert_not_nil json
 
+    assert_equal 1, json.keys.count
     assert json.key?(:errors)
-    assert_not json[:errors].empty?
     assert has_error_message(json[:errors], "table is invalid")
   end
 
