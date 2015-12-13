@@ -4,13 +4,13 @@ class API::V1::UsersControllerTest < ActionController::TestCase
   include APITestHelpers
 
   def setup
-    @request.headers['Accept'] = 'application/vnd.coffeeshop.v1'
-    @request.headers['Content-Type'] = 'application/json'
+    @request.headers['Accept'] = "application/vnd.coffeeshopph.v1, #{Mime::JSON}"
+    @request.headers['Content-Type'] = Mime::JSON.to_s
     @user = users(:user3)
   end
 
   test "should return user as json" do
-    get :show, id: @user.id, format: :json
+    get :show, id: @user.id
 
     assert_response 200
     json = parse_json_from(@response)
@@ -26,7 +26,7 @@ class API::V1::UsersControllerTest < ActionController::TestCase
   end
 
   test "should return error as json when user is invalid" do
-    get :show, id: 0, format: :json
+    get :show, id: 0
 
     assert_response 422
     json = parse_json_from(@response)
@@ -39,14 +39,10 @@ class API::V1::UsersControllerTest < ActionController::TestCase
 
   test "should update user details and return the updated user as json" do
     old_updated_at = @user.updated_at
-    patch :update, { id: @user.id,
-                     user:
-                     {
-                       name: "New Name",
-                       email: "newemail@test.com",
-                     }
-                   },
-                   { format: :json }
+    patch :update, id: @user.id,
+                   user: { name:  "New Name",
+                           email: "newemail@test.com"
+                         }
     @user.reload
 
     assert_response 200
@@ -64,14 +60,10 @@ class API::V1::UsersControllerTest < ActionController::TestCase
   test "should update user password and return the updated user as json" do
     old_updated_at = @user.updated_at
     old_password_digest = @user.password_digest
-    patch :update, { id: @user.id,
-                     user:
-                     {
-                       password: "newpassword",
-                       password_confirmation: "newpassword",
-                     }
-                   },
-                   { format: :json }
+    patch :update, id: @user.id,
+                   user: { password:              "newpassword",
+                           password_confirmation: "newpassword"
+                         }
     @user.reload
 
     assert_response 200
@@ -88,14 +80,10 @@ class API::V1::UsersControllerTest < ActionController::TestCase
   end
 
   test "should return error as json when updating invalid user" do
-    patch :update, { id: 0,
-                     user:
-                     {
-                       name: "New Name",
-                       email: "newemail@test.com"
-                     }
-                   },
-                   { format: :json }
+    patch :update, id: 0,
+                   user: { name:  "New Name",
+                           email: "newemail@test.com"
+                         }
 
     assert_response 422
     json = parse_json_from(@response)
@@ -108,14 +96,10 @@ class API::V1::UsersControllerTest < ActionController::TestCase
 
   test "should return error as json when updating user with bad details" do
     old_updated_at = @user.updated_at
-    patch :update, { id: @user.id,
-                     user:
-                     {
-                       name: "",
-                       email: "invalid@email"
-                     }
-                   },
-                   { format: :json }
+    patch :update, id: @user.id,
+                   user: { name:  "",
+                           email: "invalid@email"
+                         }
     @user.reload
 
     assert_response 422
@@ -132,14 +116,10 @@ class API::V1::UsersControllerTest < ActionController::TestCase
 
   test "should return error as json when updating user with bad password" do
     old_updated_at = @user.updated_at
-    patch :update, { id: @user.id,
-                     user:
-                     {
-                       password: "45678",
-                       password_confirmation: ""
-                     }
-                   },
-                   { format: :json }
+    patch :update, id: @user.id,
+                   user: { password:              "45678",
+                           password_confirmation: ""
+                         }
     @user.reload
 
     assert_response 422
@@ -156,7 +136,7 @@ class API::V1::UsersControllerTest < ActionController::TestCase
 
   test "should delete user and return an empty response" do
     assert_difference 'User.count', -1 do
-      delete :destroy, { id: @user.id }, format: :json
+      delete :destroy, id: @user.id
     end
 
     assert_response 204
@@ -166,7 +146,7 @@ class API::V1::UsersControllerTest < ActionController::TestCase
 
   test "should return error as json when deleting invalid user" do
     assert_no_difference 'User.count' do
-      delete :destroy, { id: 0 }, format: :json
+      delete :destroy, id: 0
     end
 
     assert_response 422

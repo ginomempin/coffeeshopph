@@ -4,13 +4,13 @@ class API::V1::TablesControllerTest < ActionController::TestCase
   include APITestHelpers
 
   def setup
-    @request.headers['Accept'] = 'application/vnd.coffeeshop.v1'
-    @request.headers['Content-Type'] = 'application/json'
+    @request.headers['Accept'] = "application/vnd.coffeeshopph.v1, #{Mime::JSON}"
+    @request.headers['Content-Type'] = Mime::JSON.to_s
     @table = tables(:table1)
   end
 
   test "should return table as json" do
-    get :show, id: @table.id, format: :json
+    get :show, id: @table.id
 
     assert_response 200
     json = parse_json_from(@response)
@@ -31,7 +31,7 @@ class API::V1::TablesControllerTest < ActionController::TestCase
   end
 
   test "should return error as json when table is invalid" do
-    get :show, id: 0, format: :json
+    get :show, id: 0
 
     assert_response 422
     json = parse_json_from(@response)

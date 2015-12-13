@@ -4,8 +4,8 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
   include APITestHelpers
 
   def setup
-    @request.headers['Accept'] = 'application/vnd.coffeeshop.v1'
-    @request.headers['Content-Type'] = 'application/json'
+    @request.headers['Accept'] = "application/vnd.coffeeshopph.v1, #{Mime::JSON}"
+    @request.headers['Content-Type'] = Mime::JSON.to_s
     @table = tables(:table1)
     @order = { name: "New Order",
                price: "123.45",
@@ -16,8 +16,7 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
 
   test "should create an order and return it as json" do
     assert_difference 'Order.count', 1 do
-      post :create, { order: @order },
-                    { format: :json }
+      post :create, order: @order
     end
 
     assert_response 201
@@ -35,8 +34,7 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
   test "should not create an order without a table and return error" do
     assert_no_difference 'Order.count' do
       @order[:table_id] = "0"
-      post :create, { order: @order },
-                    { format: :json }
+      post :create, order: @order
     end
 
     assert_response 422
@@ -52,8 +50,7 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     assert_no_difference 'Order.count' do
       @order[:name] = ""
       @order[:quantity] = "1.5"
-      post :create, { order: @order },
-                    { format: :json }
+      post :create, order: @order
     end
 
     assert_response 422
