@@ -2,6 +2,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require "minitest/reporters"
+Dir[Rails.root.join("test/support/**/*.rb")].each { |f| require f }
 Minitest::Reporters.use!
 
 class ActiveSupport::TestCase
@@ -36,20 +37,6 @@ class ActiveSupport::TestCase
     else
       session.delete(:user_id)
     end
-  end
-
-  def parse_json_from(response)
-    begin
-      JSON.parse(response.body, symbolize_names: true)
-    rescue JSON::ParserError => e
-      {}
-    end
-  end
-
-  # Checks if an array of error messages contains the
-  # specified message. Searching is case-insensitive.
-  def has_error_message(errors, message)
-    errors.any? { |error| error.downcase.include?(message.downcase) }
   end
 
   private

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class API::V1::TablesControllerTest < ActionController::TestCase
+  include APITestHelpers
 
   def setup
     @request.headers['Accept'] = 'application/vnd.coffeeshop.v1'
