@@ -27,6 +27,17 @@ class API::V1::UsersController < API::APIController
     end
   end
 
+  def destroy
+    user = User.find_by(id: params[:id])
+    if user
+      user.destroy
+      head :no_content
+    else
+      render json: { errors: ["User is invalid"] },
+             status: 422
+    end
+  end
+
   private
 
     def user_params

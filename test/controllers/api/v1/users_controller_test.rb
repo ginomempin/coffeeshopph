@@ -153,4 +153,28 @@ class API::V1::UsersControllerTest < ActionController::TestCase
     assert_equal old_updated_at, @user.updated_at
   end
 
+  test "should delete user and return an empty response" do
+    assert_difference 'User.count', -1 do
+      delete :destroy, { id: @user.id }, format: :json
+    end
+
+    assert_response 204
+    json = parse_json_from(@response)
+    assert json.empty?
+  end
+
+  test "should return error as json when deleting invalid user" do
+    assert_no_difference 'User.count' do
+      delete :destroy, { id: 0 }, format: :json
+    end
+
+    assert_response 422
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "user is invalid")
+  end
+
 end

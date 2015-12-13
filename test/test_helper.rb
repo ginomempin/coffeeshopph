@@ -39,7 +39,11 @@ class ActiveSupport::TestCase
   end
 
   def parse_json_from(response)
-    JSON.parse(response.body, symbolize_names: true)
+    begin
+      JSON.parse(response.body, symbolize_names: true)
+    rescue JSON::ParserError => e
+      {}
+    end
   end
 
   # Checks if an array of error messages contains the
