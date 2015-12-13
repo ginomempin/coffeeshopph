@@ -4,8 +4,7 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
   include APITestHelpers
 
   def setup
-    @request.headers['Accept'] = "application/vnd.coffeeshopph.v1, #{Mime::JSON}"
-    @request.headers['Content-Type'] = Mime::JSON.to_s
+    set_request_headers
     @table = tables(:table1)
     @order = { name: "New Order",
                price: "123.45",
