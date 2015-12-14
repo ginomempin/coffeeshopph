@@ -9,7 +9,6 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     @order = { name: "New Order",
                price: "123.45",
                quantity: 2,
-               served: false,
                table_id: @table.id }
   end
 
@@ -26,7 +25,7 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     assert_equal @order[:name],     json[:name]
     assert_equal @order[:price],    json[:price]
     assert_equal @order[:quantity], json[:quantity]
-    assert_equal @order[:served],   json[:served]
+    assert_not                      json[:served]
     assert_equal @table.id,         json[:table_id]
   end
 
