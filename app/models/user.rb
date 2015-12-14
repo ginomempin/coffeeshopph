@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
   mount_uploader :picture, UserPictureUploader
 
-  before_create :create_activation_digest
+  before_create :create_activation_digest, :create_authentication_token!
   before_save   :downcase_email
 
   validates :name, presence:  true,
@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
   validates :password, presence:  true,
                        length:    { minimum: 6 },
                        allow_nil: true  # allow updating the user profile with an empty password
+
+  validates :authentication_token, uniqueness: true
 
   validate :picture_size
 
@@ -154,6 +156,14 @@ class User < ActiveRecord::Base
     def create_activation_digest
       self.activation_token = User.token
       self.activation_digest = User.digest(self.activation_token)
+    end
+
+    # Generates an authentication token to be used for API transactions.
+    # The token is guaranteed to be unique.
+    def create_authentication_token!
+      begin
+        self.authentication_token = User.token
+      end while User.exists?(authentication_token: self.authentication_token)
     end
 
     # Validates the size of the uploaded picture
