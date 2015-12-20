@@ -4,12 +4,12 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
   include APITestHelpers
 
   def setup
-    set_request_headers
     @table = tables(:table1)
     @order = { name: "New Order",
                price: "123.45",
                quantity: 2,
                table_id: @table.id }
+    set_request_headers
   end
 
   test "should create an order and return it as json" do

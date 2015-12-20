@@ -4,8 +4,8 @@ class API::V1::UsersControllerTest < ActionController::TestCase
   include APITestHelpers
 
   def setup
-    set_request_headers
     @user = users(:user3)
+    set_request_headers
   end
 
   test "should return user as json" do

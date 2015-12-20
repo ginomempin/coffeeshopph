@@ -1,8 +1,11 @@
 module APITestHelpers
 
-  def set_request_headers(format = Mime::JSON)
+  def set_request_headers(user = nil, format = Mime::JSON)
     @request.headers['Accept'] = "application/vnd.coffeeshopph.v1, #{Mime::JSON}"
     @request.headers['Content-Type'] = Mime::JSON.to_s
+    if user
+      @request.headers['Authorization'] = user.authentication_token
+    end
   end
 
   def parse_json_from(response)

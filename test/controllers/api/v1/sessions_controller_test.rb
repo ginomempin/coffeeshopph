@@ -6,6 +6,7 @@ class API::V1::SessionsControllerTest < ActionController::TestCase
   def setup
     @active_user = users(:user1)
     @inactive_user = users(:user51)
+    set_request_headers
   end
 
   test "should return user as json when signing-in with correct and activated credentials" do

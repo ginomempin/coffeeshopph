@@ -4,8 +4,8 @@ class API::V1::TablesControllerTest < ActionController::TestCase
   include APITestHelpers
 
   def setup
-    set_request_headers
     @table = tables(:table1)
+    set_request_headers
   end
 
   test "should return table as json" do
