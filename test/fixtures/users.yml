@@ -20,8 +20,9 @@ admin2:
   activated_at:         <% Time.zone.now %>
   authentication_token: admin2GPVKTr1bFaQ1nk0J
 
-# NORMAL users %
+# NORMAL users #
 
+# ACTIVE
 <% 1.upto(50) do |n| %>
 user<%= n %>:
   name:                 <%= "Test User #{n}" %>
@@ -32,3 +33,13 @@ user<%= n %>:
   activated_at:         <% Time.zone.now %>
   authentication_token: <%= "user#{n}GPVKTr1bFaQ1nk0J" %>
 <% end %>
+
+# INACTIVE
+user51:
+  name:                 Inactive User
+  email:                inactive_user@test.com
+  password_digest:      <%= User.digest('password') %>
+  admin:                false
+  activated:            false
+  activated_at:         nil
+  authentication_token: user51GPVKTr1bFaQ1nk0J

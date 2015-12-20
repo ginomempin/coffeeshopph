@@ -120,6 +120,11 @@ class User < ActiveRecord::Base
     self.customers.find_by(table_id: table.id).destroy
   end
 
+  def update_authentication_token!
+    create_authentication_token!
+    update_attribute(:authentication_token, self.authentication_token)
+  end
+
   #-------------------
   # Class Methods
   #-------------------
