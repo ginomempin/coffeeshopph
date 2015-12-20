@@ -10,7 +10,7 @@ class API::V1::SessionsController < API::APIController
         # render the old token useless.
         # TODO: the authentication_token should be merged with the remember_token
         user.update_authentication_token!
-        render json: { name: user.name, authentication_token: user.authentication_token },
+        render json: { id: user.id, authentication_token: user.authentication_token },
                status: 200
       else
         render json: { errors: ["This account is not yet activated"] },

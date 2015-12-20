@@ -22,7 +22,7 @@ class API::V1::SessionsControllerTest < ActionController::TestCase
     new_token = @active_user.authentication_token
     assert_not_equal old_token, new_token
     assert_equal 2, json.keys.count
-    assert_equal @active_user.name,                 json[:name]
+    assert_equal @active_user.id,                   json[:id]
     assert_equal @active_user.authentication_token, json[:authentication_token]
   end
 

@@ -5,10 +5,24 @@ class API::V1::UsersControllerTest < ActionController::TestCase
 
   def setup
     @user = users(:user3)
-    set_request_headers
+    @other_user = users(:user5)
   end
 
-  test "should return user as json" do
+  test "logged-out and show user" do
+    set_request_headers # no authentication token
+    get :show, id: @user.id
+
+    assert_response 401
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "user is unauthorized")
+  end
+
+  test "logged-in and show valid user" do
+    set_request_headers(@user)
     get :show, id: @user.id
 
     assert_response 200
@@ -24,7 +38,8 @@ class API::V1::UsersControllerTest < ActionController::TestCase
     end
   end
 
-  test "should return error as json when user is invalid" do
+  test "logged-in and show invalid user" do
+    set_request_headers(@user)
     get :show, id: 0
 
     assert_response 422
@@ -36,7 +51,25 @@ class API::V1::UsersControllerTest < ActionController::TestCase
     assert has_error_message(json[:errors], "user is invalid")
   end
 
-  test "should update user details and return the updated user as json" do
+  test "logged-out and update user" do
+    set_request_headers # no authentication token
+    patch :update, id: @user.id,
+                   user: { name:  "New Name",
+                           email: "newemail@test.com"
+                         }
+    @user.reload
+
+    assert_response 401
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "user is unauthorized")
+  end
+
+  test "logged-in and update user details" do
+    set_request_headers(@user)
     old_updated_at = @user.updated_at
     patch :update, id: @user.id,
                    user: { name:  "New Name",
@@ -56,7 +89,8 @@ class API::V1::UsersControllerTest < ActionController::TestCase
     assert_not_equal old_updated_at, @user.updated_at
   end
 
-  test "should update user password and return the updated user as json" do
+  test "logged-in and update user password" do
+    set_request_headers(@user)
     old_updated_at = @user.updated_at
     old_password_digest = @user.password_digest
     patch :update, id: @user.id,
@@ -78,7 +112,8 @@ class API::V1::UsersControllerTest < ActionController::TestCase
     assert_not_equal old_password_digest, @user.password_digest
   end
 
-  test "should return error as json when updating invalid user" do
+  test "logged-in and update invalid user" do
+    set_request_headers(@user)
     patch :update, id: 0,
                    user: { name:  "New Name",
                            email: "newemail@test.com"
@@ -93,7 +128,24 @@ class API::V1::UsersControllerTest < ActionController::TestCase
     assert has_error_message(json[:errors], "user is invalid")
   end
 
-  test "should return error as json when updating user with bad details" do
+  test "logged-in and update other user" do
+    set_request_headers(@user)
+    patch :update, id: @other_user.id,
+                   user: { name:  "New Name",
+                           email: "newemail@test.com"
+                         }
+
+    assert_response 401
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "user is unauthorized")
+  end
+
+  test "logged-in and update user with bad details" do
+    set_request_headers(@user)
     old_updated_at = @user.updated_at
     patch :update, id: @user.id,
                    user: { name:  "",
@@ -113,7 +165,8 @@ class API::V1::UsersControllerTest < ActionController::TestCase
     assert_equal old_updated_at, @user.updated_at
   end
 
-  test "should return error as json when updating user with bad password" do
+  test "logged-in and update user with bad password" do
+    set_request_headers(@user)
     old_updated_at = @user.updated_at
     patch :update, id: @user.id,
                    user: { password:              "45678",
@@ -133,7 +186,23 @@ class API::V1::UsersControllerTest < ActionController::TestCase
     assert_equal old_updated_at, @user.updated_at
   end
 
-  test "should delete user and return an empty response" do
+  test "logged-out and delete user" do
+    set_request_headers # no authentication token
+    assert_no_difference 'User.count' do
+      delete :destroy, id: @user.id
+    end
+
+    assert_response 401
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "user is unauthorized")
+  end
+
+  test "logged-in and delete user" do
+    set_request_headers(@user)
     assert_difference 'User.count', -1 do
       delete :destroy, id: @user.id
     end
@@ -143,7 +212,8 @@ class API::V1::UsersControllerTest < ActionController::TestCase
     assert json.empty?
   end
 
-  test "should return error as json when deleting invalid user" do
+  test "logged-in and delete invalid user" do
+    set_request_headers(@user)
     assert_no_difference 'User.count' do
       delete :destroy, id: 0
     end
@@ -155,6 +225,21 @@ class API::V1::UsersControllerTest < ActionController::TestCase
     assert_equal 1, json.keys.count
     assert json.key?(:errors)
     assert has_error_message(json[:errors], "user is invalid")
+  end
+
+  test "logged-in and delete other user" do
+    set_request_headers(@user)
+    assert_no_difference 'User.count' do
+      delete :destroy, id: @other_user.id
+    end
+
+    assert_response 401
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "user is unauthorized")
   end
 
 end
