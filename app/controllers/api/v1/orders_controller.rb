@@ -1,4 +1,5 @@
 class API::V1::OrdersController < API::APIController
+  before_action :require_logged_in_user, only: [:create]
 
   def create
     table = Table.find_by(id: order_params[:table_id])

@@ -1,4 +1,5 @@
 class API::V1::TablesController < API::APIController
+  before_action :require_logged_in_user, only: [:show]
 
   def show
     table = Table.find_by(id: params[:id])
