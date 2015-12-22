@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130044611) do
+ActiveRecord::Schema.define(version: 20151214124302) do
 
   create_table "customers", force: :cascade do |t|
     t.integer  "server_id"
@@ -70,8 +70,10 @@ ActiveRecord::Schema.define(version: 20151130044611) do
     t.string   "password_reset_digest"
     t.datetime "password_reset_sent_at"
     t.string   "picture"
+    t.string   "authentication_token",   default: ""
   end
 
+  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true
   add_index "users", ["email"], name: "index_users_on_email", unique: true
 
 end

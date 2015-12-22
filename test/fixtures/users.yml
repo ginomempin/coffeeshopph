@@ -3,29 +3,43 @@
 # ADMIN users #
 
 admin1:
-  name:             Test Admin 1
-  email:            admin1@test.com
-  password_digest:  <%= User.digest('password') %>
-  admin:            true
-  activated:        true
-  activated_at:     <% Time.zone.now %>
+  name:                 Test Admin 1
+  email:                admin1@test.com
+  password_digest:      <%= User.digest('password') %>
+  admin:                true
+  activated:            true
+  activated_at:         <% Time.zone.now %>
+  authentication_token: admin1GPVKTr1bFaQ1nk0J
 
 admin2:
-  name:             Test Admin 2
-  email:            admin2@test.com
-  password_digest:  <%= User.digest('password') %>
-  admin:            true
-  activated:        true
-  activated_at:     <% Time.zone.now %>
+  name:                 Test Admin 2
+  email:                admin2@test.com
+  password_digest:      <%= User.digest('password') %>
+  admin:                true
+  activated:            true
+  activated_at:         <% Time.zone.now %>
+  authentication_token: admin2GPVKTr1bFaQ1nk0J
 
-# NORMAL users %
+# NORMAL users #
 
+# ACTIVE
 <% 1.upto(50) do |n| %>
 user<%= n %>:
-  name:             <%= "Test User #{n}" %>
-  email:            <%= "user#{n}@test.com" %>
-  password_digest:  <%= User.digest('password') %>
-  admin:            false
-  activated:        true
-  activated_at:     <% Time.zone.now %>
+  name:                 <%= "Test User #{n}" %>
+  email:                <%= "user#{n}@test.com" %>
+  password_digest:      <%= User.digest('password') %>
+  admin:                false
+  activated:            true
+  activated_at:         <% Time.zone.now %>
+  authentication_token: <%= "user#{n}GPVKTr1bFaQ1nk0J" %>
 <% end %>
+
+# INACTIVE
+user51:
+  name:                 Inactive User
+  email:                inactive_user@test.com
+  password_digest:      <%= User.digest('password') %>
+  admin:                false
+  activated:            false
+  activated_at:         nil
+  authentication_token: user51GPVKTr1bFaQ1nk0J

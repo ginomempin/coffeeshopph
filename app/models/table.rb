@@ -24,6 +24,17 @@ class Table < ActiveRecord::Base
   # Object Methods
   #-------------------
 
+  # Override as_json to limit the fields returned by the Tables API.
+  def as_json(options={})
+    super( except: [:created_at, :updated_at],
+           include:
+           {
+             orders: { only: [:name, :quantity, :served] },
+             server: { only: [:name] }
+           }
+         )
+  end
+
   # Returns an ordered list of the associated Order objects.
   def order_list
     Order.where(table_id: self.id)

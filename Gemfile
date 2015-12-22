@@ -18,8 +18,8 @@ gem 'will_paginate',              '>= 3.0.0'
 gem 'bootstrap-will_paginate',    '~> 0.0.10'
 gem 'carrierwave',                '~> 0.10.0'
 gem 'mini_magick',                '>= 3.8.0'
-gem 'active_model_serializers',   '~> 0.9.0'
 gem 'responders',                 '~> 2.0'
+gem 'wannabe_bool',               '~> 0.4.0'
 
 group :development, :test do
   gem 'sqlite3',                  '~> 1.3.0'

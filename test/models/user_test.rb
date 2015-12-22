@@ -120,4 +120,21 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.authenticated?(:password, 'any_token')
   end
 
+  test "created users should have an auto-generated authentication token" do
+    @user.save
+    assert_not_nil   @user.authentication_token
+    assert_not       @user.authentication_token.empty?
+    assert_equal 22, @user.authentication_token.length
+  end
+
+  test "should prevent saving of duplicate authentication tokens" do
+    @user.save
+    another_user = User.new(name: "Another User",
+                            email: "another_user@test.com",
+                            password: "654321",
+                            password_confirmation: "654321",
+                            authentication_token: @user.authentication_token)
+    assert_not another_user.valid?
+  end
+
 end
