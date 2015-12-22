@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
   mount_uploader :picture, UserPictureUploader
 
-  before_create :create_activation_digest
+  before_create :create_activation_digest, :create_authentication_token!
   before_save   :downcase_email
 
   validates :name, presence:  true,
@@ -30,11 +30,23 @@ class User < ActiveRecord::Base
                        length:    { minimum: 6 },
                        allow_nil: true  # allow updating the user profile with an empty password
 
+  validates :authentication_token, uniqueness: true
+
   validate :picture_size
 
   #-------------------
   # Object Methods
   #-------------------
+
+  # Override as_json to limit the fields returned by the Users API.
+  def as_json(options={})
+    super( only: [:name, :email],
+           include:
+           {
+             tables: { only: [:name] }
+           }
+         )
+  end
 
   # Generates a new remember token for the user and saves it
   #  to the database as a hashed digest. This is analogous to
@@ -108,6 +120,11 @@ class User < ActiveRecord::Base
     self.customers.find_by(table_id: table.id).destroy
   end
 
+  def update_authentication_token!
+    create_authentication_token!
+    update_attribute(:authentication_token, self.authentication_token)
+  end
+
   #-------------------
   # Class Methods
   #-------------------
@@ -144,6 +161,14 @@ class User < ActiveRecord::Base
     def create_activation_digest
       self.activation_token = User.token
       self.activation_digest = User.digest(self.activation_token)
+    end
+
+    # Generates an authentication token to be used for API transactions.
+    # The token is guaranteed to be unique.
+    def create_authentication_token!
+      begin
+        self.authentication_token = User.token
+      end while User.exists?(authentication_token: self.authentication_token)
     end
 
     # Validates the size of the uploaded picture
