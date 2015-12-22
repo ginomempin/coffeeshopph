@@ -58,7 +58,8 @@ class OrderTest < ActiveSupport::TestCase
   end
 
   test "order should be most recent first" do
-    assert_equal orders(:order1), Order.first
+    assert_equal orders(:order11), Order.first
+    assert_equal orders(:order10), Order.last
   end
 
 end

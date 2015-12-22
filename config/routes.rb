@@ -25,9 +25,10 @@ Rails.application.routes.draw do
     scope module: :v1,
           constraints: Constraints::API.new(version: 1, default: true) do
       resources :users,     only: [:show, :update, :destroy]
-      resources :tables,    only: [:show]
-      resources :orders,    only: [:create]
-      resources :sessions,  only: [:create, :destroy] 
+      resources :tables,    only: [:show] do
+        resources :orders,  only: [:index, :create, :destroy]
+      end
+      resources :sessions,  only: [:create, :destroy]
     end
   end
 

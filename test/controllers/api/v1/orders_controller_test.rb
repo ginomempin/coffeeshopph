@@ -6,16 +6,21 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
   def setup
     @user = users(:user1)
     @table = tables(:table1)
-    @order = { name: "New Order",
-               price: "123.45",
-               quantity: 2,
-               table_id: @table.id }
+    @pending_order = orders(:order3)
+    @new_order = orders(:order11)
+    @other_order = orders(:order4)
   end
 
   test "logged-out and create order" do
     set_request_headers # no authentication token
     assert_no_difference 'Order.count' do
-      post :create, order: @order
+      post :create, { table_id: @table.id,
+                      order: {
+                        name: @new_order.name,
+                        price: @new_order.price,
+                        quantity: @new_order.quantity
+                      }
+                    }
     end
 
     assert_response 401
@@ -30,7 +35,13 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
   test "logged-in and create a valid order" do
     set_request_headers(@user)
     assert_difference 'Order.count', 1 do
-      post :create, order: @order
+      post :create, { table_id: @table.id,
+                      order: {
+                        name: @new_order.name,
+                        price: @new_order.price,
+                        quantity: @new_order.quantity
+                      }
+                    }
     end
 
     assert_response 201
@@ -38,18 +49,23 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     assert_not_nil json
 
     assert_equal 5, json.keys.count
-    assert_equal @order[:name],     json[:name]
-    assert_equal @order[:price],    json[:price]
-    assert_equal @order[:quantity], json[:quantity]
-    assert_not                      json[:served]
-    assert_equal @table.id,         json[:table_id]
+    assert_equal @new_order.name,       json[:name]
+    assert_equal @new_order.price.to_s, json[:price]
+    assert_equal @new_order.quantity,   json[:quantity]
+    assert_not                          json[:served]
+    assert_equal @table.id,             json[:table_id]
   end
 
-  test "logged-in and create an order without a table" do
+  test "logged-in and create an order with an invalid table" do
     set_request_headers(@user)
     assert_no_difference 'Order.count' do
-      @order[:table_id] = "0"
-      post :create, order: @order
+      post :create, { table_id: 0,
+                      order: {
+                        name: @new_order.name,
+                        price: @new_order.price,
+                        quantity: @new_order.quantity
+                      }
+                    }
     end
 
     assert_response 422
@@ -64,9 +80,15 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
   test "logged-in and create an order with invalid fields" do
     set_request_headers(@user)
     assert_no_difference 'Order.count' do
-      @order[:name] = ""
-      @order[:quantity] = "1.5"
-      post :create, order: @order
+      @new_order.name = ""
+      @new_order.quantity = 0
+      post :create, { table_id: @table.id,
+                      order: {
+                        name: @new_order.name,
+                        price: @new_order.price,
+                        quantity: @new_order.quantity
+                      }
+                    }
     end
 
     assert_response 422
@@ -76,7 +98,104 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     assert_equal 1, json.keys.count
     assert json.key?(:errors)
     assert has_error_message(json[:errors], "name can't be blank")
-    assert has_error_message(json[:errors], "quantity must be an integer")
+    assert has_error_message(json[:errors], "quantity must be greater than or equal to 1")
+  end
+
+  test "logged-out and list orders" do
+    set_request_headers # no authentication token
+    get :index, table_id: @table.id
+
+    assert_response 401
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "user is unauthorized")
+  end
+
+  test "logged-in and list orders for valid table" do
+    set_request_headers(@user)
+    get :index, table_id: @table.id
+
+    assert_response 200
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 3, json[:orders].count
+  end
+
+  test "logged-in and list orders for invalid table" do
+    set_request_headers(@user)
+    get :index, table_id: 0
+
+    assert_response 422
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "table is invalid")
+  end
+
+  test "logged-out and cancel order" do
+    set_request_headers # no authentication_token
+    assert_no_difference 'Order.count' do
+      delete :destroy, { table_id: @table.id, id: @pending_order.id }
+    end
+
+    assert_response 401
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "user is unauthorized")
+  end
+
+  test "logged-in and cancel order from valid table" do
+    set_request_headers(@user)
+    assert_not_nil @table.orders.find_by(id: @pending_order.id)
+    assert_difference 'Order.count', -1 do
+      delete :destroy, { table_id: @table.id, id: @pending_order.id }
+    end
+
+    assert_response 204
+    json = parse_json_from(@response)
+    assert json.empty?
+
+    @table.reload
+    assert_nil @table.orders.find_by(id: @pending_order.id)
+  end
+
+  test "logged-in and cancel order from invalid table" do
+    set_request_headers(@user)
+    assert_no_difference 'Order.count' do
+      delete :destroy, { table_id: 0, id: @pending_order.id }
+    end
+
+    assert_response 422
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "table is invalid")
+  end
+
+  test "logged-in and cancel invalid order" do
+    set_request_headers(@user)
+    assert_no_difference 'Order.count' do
+      delete :destroy, { table_id: @table.id, id: @other_order.id }
+    end
+
+    assert_response 422
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.keys.count
+    assert json.key?(:errors)
+    assert has_error_message(json[:errors], "order is invalid")
   end
 
 end

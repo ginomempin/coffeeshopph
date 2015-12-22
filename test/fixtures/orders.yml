@@ -52,3 +52,12 @@ order<%= n %>:
   created_at:       <%= n.minutes.ago %>
   table:            table5
 <% end %>
+
+# new order (not associated with a table)
+order11:
+  name:             "New Order"
+  price:            123.45
+  quantity:         2
+  served:           false
+  created_at:       <%= 30.seconds.ago %>
+  table:            nil

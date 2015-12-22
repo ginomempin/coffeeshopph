@@ -1,8 +1,20 @@
 class API::V1::OrdersController < API::APIController
-  before_action :require_logged_in_user, only: [:create]
+  before_action :require_logged_in_user, only: [:index, :create, :destroy]
+
+  def index
+    table = Table.find_by(id: params[:table_id])
+    if table
+      render json: table.orders,
+             status: 200
+    else
+      render json: { errors: ["Table is invalid"] },
+             status: 422
+    end
+  end
 
   def create
-    table = Table.find_by(id: order_params[:table_id])
+    #TODO: add verification if current_user is a Customer of the Table
+    table = Table.find_by(id: params[:table_id])
     if table
       order = table.orders.build(order_params)
       if order.save
@@ -18,10 +30,27 @@ class API::V1::OrdersController < API::APIController
     end
   end
 
+  def destroy
+    table = Table.find_by(id: params[:table_id])
+    if table
+      order = table.orders.find_by(id: params[:id])
+      if order
+        order.destroy
+        head 204
+      else
+        render json: { errors: ["Order is invalid"] },
+               status: 422
+      end
+    else
+      render json: { errors: ["Table is invalid"] },
+             status: 422
+    end
+  end
+
   private
 
     def order_params
-      params.require(:order).permit(:name, :price, :quantity, :table_id)
+      params.require(:order).permit(:name, :price, :quantity)
     end
 
 end
