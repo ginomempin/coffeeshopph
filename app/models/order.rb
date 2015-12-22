@@ -20,7 +20,7 @@ class Order < ActiveRecord::Base
 
   # Override as_json to limit the fields returned by the Orders API.
   def as_json(options={})
-    super( except: [:id, :created_at, :updated_at] )
+    super( except: [:table_id, :created_at, :updated_at] )
   end
 
 end

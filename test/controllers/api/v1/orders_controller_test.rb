@@ -49,11 +49,11 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     assert_not_nil json
 
     assert_equal 5, json.keys.count
+    assert_not_nil Order.find(json[:id])
     assert_equal @new_order.name,       json[:name]
     assert_equal @new_order.price.to_s, json[:price]
     assert_equal @new_order.quantity,   json[:quantity]
     assert_not                          json[:served]
-    assert_equal @table.id,             json[:table_id]
   end
 
   test "logged-in and create an order with an invalid table" do
@@ -125,11 +125,11 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     assert_equal 3, json.count
     assert_equal 5, json[0].keys.count
     expected_order = orders(:order1) # most recent first
+    assert_equal expected_order.id,         json[0][:id]
     assert_equal expected_order.name,       json[0][:name]
     assert_equal expected_order.price.to_s, json[0][:price]
     assert_equal expected_order.quantity,   json[0][:quantity]
     assert_equal expected_order.served,     json[0][:served]
-    assert_equal expected_order.table_id,   json[0][:table_id]
   end
 
   test "logged-in and list orders for invalid table" do

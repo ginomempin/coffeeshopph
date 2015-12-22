@@ -26,7 +26,7 @@ class Table < ActiveRecord::Base
 
   # Override as_json to limit the fields returned by the Tables API.
   def as_json(options={})
-    super( except: [:id, :created_at, :updated_at],
+    super( except: [:created_at, :updated_at],
            include:
            {
              orders: { only: [:name, :quantity, :served] },

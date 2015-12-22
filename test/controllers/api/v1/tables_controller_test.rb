@@ -29,7 +29,8 @@ class API::V1::TablesControllerTest < ActionController::TestCase
     json = parse_json_from(@response)
     assert_not_nil json
 
-    assert_equal 7, json.keys.count
+    assert_equal 8, json.keys.count
+    assert_equal @table.id,             json[:id]
     assert_equal @table.name,           json[:name]
     assert_equal @table.max_persons,    json[:max_persons]
     assert_equal @table.num_persons,    json[:num_persons]
