@@ -62,4 +62,31 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal orders(:order10), Order.last
   end
 
+  test "filtering orders" do
+    # no filtering
+    filter_params = {}
+    all_orders = Order.filter
+    assert_equal 11, all_orders.count
+
+    # filter by served (boolean)
+    filter_params = { served: true }
+    served = Order.filter(filter_params)
+    assert_equal 5, served.count
+
+    # filter by served (string)
+    filter_params = { served: "true" }
+    served = Order.filter(filter_params)
+    assert_equal 5, served.count
+
+    # filter by pending (boolean)
+    filter_params = { served: false }
+    pending = Order.filter(filter_params)
+    assert_equal 6, pending.count
+
+    # filter by pending (string)
+    filter_params = { served: "false" }
+    pending = Order.filter(filter_params)
+    assert_equal 6, pending.count
+  end
+
 end

@@ -114,7 +114,7 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     assert has_error_message(json[:errors], "user is unauthorized")
   end
 
-  test "logged-in and list orders for valid table" do
+  test "logged-in and list all orders for valid table" do
     set_request_headers(@user)
     get :index, table_id: @table.id
 
@@ -130,6 +130,42 @@ class API::V1::OrdersControllerTest < ActionController::TestCase
     assert_equal expected_order.price.to_s, json[0][:price]
     assert_equal expected_order.quantity,   json[0][:quantity]
     assert_equal expected_order.served,     json[0][:served]
+  end
+
+  test "logged-in and list served orders for valid table" do
+    set_request_headers(@user)
+    get :index, { table_id: @table.id, served: true }
+
+    assert_response 200
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 1, json.count
+    assert_equal 5, json[0].keys.count
+    expected_order = orders(:order2) # most recent first
+    assert_equal expected_order.id,         json[0][:id]
+    assert_equal expected_order.name,       json[0][:name]
+    assert_equal expected_order.price.to_s, json[0][:price]
+    assert_equal expected_order.quantity,   json[0][:quantity]
+    assert_equal expected_order.served,     json[0][:served]
+  end
+
+  test "logged-in and list pending orders for valid table" do
+    set_request_headers(@user)
+    get :index, { table_id: @table.id, served: false }
+
+    assert_response 200
+    json = parse_json_from(@response)
+    assert_not_nil json
+
+    assert_equal 2, json.count
+    assert_equal 5, json[1].keys.count
+    expected_order = orders(:order3) # most recent first
+    assert_equal expected_order.id,         json[1][:id]
+    assert_equal expected_order.name,       json[1][:name]
+    assert_equal expected_order.price.to_s, json[1][:price]
+    assert_equal expected_order.quantity,   json[1][:quantity]
+    assert_equal expected_order.served,     json[1][:served]
   end
 
   test "logged-in and list orders for invalid table" do

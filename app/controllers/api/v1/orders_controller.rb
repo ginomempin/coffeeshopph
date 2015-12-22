@@ -4,7 +4,7 @@ class API::V1::OrdersController < API::APIController
   def index
     table = Table.find_by(id: params[:table_id])
     if table
-      render json: table.orders,
+      render json: table.orders.filter(params.slice(:served)),
              status: 200
     else
       render json: { errors: ["Table is invalid"] },
