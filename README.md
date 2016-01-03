@@ -1,4 +1,4 @@
-# CoffeeShop #
+# CoffeeShop-Web #
 
 This is a coffee shop application developed using Ruby on Rails.
 
