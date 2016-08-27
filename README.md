@@ -1,20 +1,20 @@
-# CoffeeShop-Web #
+# CoffeeShopPH-Web #
 
-This is a coffee shop application developed using Ruby on Rails.
+This is a coffee shop web application developed using Ruby on Rails.
 
-### Summary ###
+### Environment ###
 
-* Version: 1.0.0
-* Authors:
-    * Gino Mempin ([gino.mempin@gmail.com](gino.mempin@gmail.com))
-    * Jonalyn Valencia ([jonalyn.valencia@gmail.com](jonalyn.valencia@gmail.com))
+* Mac OS X 10.10.5 (Yosemite)
+* Homebrew 0.9.5
+* Ruby 2.2.4
+* RVM 1.26.11
+* Rails 4.2.2
+* Heroku Toolbelt 3.42.25
+* Heroku CLI 5.2.24
 
-### Dependencies ###
+### Setup ###
 
-* Ruby on Rails (http://guides.rubyonrails.org/getting_started.html)
-
-### Setup and Installation ###
-
+* [HOW-TO setup Ruby and Rails](http://guides.rubyonrails.org/getting_started.html)
 * HOW-TO run the application in Heroku
     * Create an account in Heroku
     * Install the Heroku Toolbelt
