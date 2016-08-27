@@ -30,6 +30,11 @@ This is a coffee shop web application developed using Ruby on Rails.
     * Push production code to heroku: ```git push heroku master```
     * Access the page using its https://app-name.herokuapp.com URL
 
+### References ###
+
+* [The Ruby on Rails Tutorial 3rd ed.](https://www.goodreads.com/book/show/25126104-the-ruby-on-rails-tutorial-3rd-ed) by Michael Hartl
+* [APIs on Rails](https://www.goodreads.com/book/show/25615784-apis-on-rails) by Abraham Kuri
+
 ### Changelog ###
 
 * 1.0.0 - initial version
