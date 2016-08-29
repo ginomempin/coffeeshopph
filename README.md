@@ -1,6 +1,6 @@
 # CoffeeShopPH-Web #
 
-This is a coffee shop web application developed using Ruby on Rails.
+This is a web application developed using Ruby on Rails.
 
 ### Environment ###
 
