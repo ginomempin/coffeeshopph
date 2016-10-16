@@ -32,5 +32,5 @@ This is a Ruby on Rails web app for managing the operations of a café or a rest
 
 ### References ###
 
-* [The Ruby on Rails Tutorial 3rd ed.](https://www.goodreads.com/book/show/25126104-the-ruby-on-rails-tutorial-3rd-ed) by Michael Hartl
-* [APIs on Rails](https://www.goodreads.com/book/show/25615784-apis-on-rails) by Abraham Kuri
+* [The Ruby on Rails Tutorial 3rd ed.](http://3rd-edition.railstutorial.org/) by Michael Hartl
+* [APIs on Rails](http://apionrails.icalialabs.com/) by Abraham Kuri Vargas
